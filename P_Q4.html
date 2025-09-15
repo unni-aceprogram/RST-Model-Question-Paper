@@ -176,281 +176,281 @@ h1 {
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script>
- const quizData = [
+const quizData = [
   {
-    question: "What is the color of the centerline marking on a bay?",
+    question: "Who is authorized to perform wing walking during aircraft movement?",
     options: [
-      "Blue",
-      "Yellow",
-      "White",
-      "Red"
+      "Any ground staff member",
+      "Only trained and authorized personnel",
+      "Cabin crew",
+      "Security guards"
     ],
     correct: 1,
-    explanation: "Centerlines are marked in continuous yellow to guide aircraft safely."
+    explanation: "Only trained and authorized personnel (Flight manager and trained Agile Staff )can perform wing walking to ensure safety and clear communication with the marshaller."
   },
   {
-    question: "What color is used for runway markings?",
+    question: "Who is permitted to open an aircraft passenger door?",
     options: [
-      "Red",
-      "Yellow",
-      "White",
-      "Blue"
+      "Ground handling agent trained for that specific aircraft",
+      "Any ramp worker",
+      "Passengers",
+      "Catering staff"
     ],
-    correct: 2,
-    explanation: "Runway are painted white for maximum visibility to pilots."
+    correct: 0,
+    explanation: "Only trained ground handling staff certified for that aircraft type (AME or Engineer/ Trained Security staff) may open doors to avoid damage or injury."
   },
   {
-    question: "What is the full form of  TCL?",
+    question: "Who is authorized to open aircraft cargo holds?",
     options: [
-      "Taxiway Center Line",
-      "Traffic Control Limit",
-      "Tail Cone Latch",
-      "Tail Clearance Line"
+      "Trained staff with authorization",
+      "Cabin crew",
+      "Airport security",
+      "Any ground staff nearby"
+    ],
+    correct: 0,
+    explanation: "Only certified and trained  personnel are authorized to operate cargo holds safely."
+  },
+  {
+    question: "How many chocks are typically placed on an Airbus A320 during a normal day?",
+    options: [
+      "2",
+      "4",
+      "6",
+      "8"
     ],
     correct: 3,
-    explanation: "TCL stands for Tail Clearance Line."
+    explanation: "An Airbus A320 requires 8 chocks — 4 for the nose wheels and 2 on each main gear."
   },
   {
-    question: "What color is used to identify the stop point inside bay?",
+    question: "How many chocks are used for ATR aircraft?",
     options: [
-      "Grey",
-      "Yellow",
-      "White",
-      "Black"
-    ],
-    correct: 1,
-    explanation: "Stop points are yellow, helping pilots and ground staff stop at the correct location."
-  },
-  {
-    question: "What does a TCL marking look like?",
-    options: [
-      "Continuous double yellow line",
-      "Continuous single red line",
-      "Single continuous yellow line",
-      "Broken white line"
-    ],
-    correct: 1,
-    explanation: "A Tail clearance line is a single continuous red line, esnuring A/C tail is within the TCL line, when parked."
-  },
-  {
-    question: "What should vehicle speed not exceed while driving on the boundary wall?",
-    options: [
-      "30 km/h",
-      "35 km/h",
-      "40 km/h",
-      "50 km/h"
-    ],
-    correct: 0,
-    explanation: "The bondary wall speed limit is 30 km/h to ensure maximum safety around aircraft."
-  },
-  {
-    question: "What is the vehicle speed limit when driving near an aircraft on the service road?",
-    options: [
-      "10 km/h",
-      "25 km/h",
-      "20 km/h",
-      "15 km/h"
+      "2",
+      "4",
+      "6",
+      "8"
     ],
     correct: 3,
-    explanation: "When close to aircraft, speed should not exceed 15 km/h for safety."
+    explanation: "ATR aircraft typically use 6 chocks."
   },
   {
-    question: "Which PPE is mandatory for ground staff on the ramp?",
+    question: "How many safety cones are required for Airbus A320 during parking?",
     options: [
-      "Reflective vest, safety shoes, and hearing protection",
-      "Sunglasses and casual shoes",
-      "Helmet only",
-      "Gloves only"
+      "11",
+      "6",
+      "8",
+      "10"
     ],
     correct: 0,
-    explanation: "Ramp PPE includes reflective vest, safety shoes, ear protection, and goggles when required."
-  },
- {
-  question: "Used mask and gloves should be disposed of where?",
-  options: [
-    "FOD bin",
-    "Biohazard bin",
-    "Recycling bin",
-    "Trash bin"
-  ],
-  correct: 1,
-  explanation: "Used PPE like masks and gloves must be disposed of in a biohazard bin to prevent contamination and follow safety protocols."
-},
-  {
-    question: "When is wing walking required?",
-    options: [
-      "When aircraft is on runway",
-      "When aircraft is on taxiway",
-      "When aircraft is about to enter designated bay",
-      "Only during DGCA Audit"
-    ],
-    correct: 2,
-    explanation: "Wing walking ensures A/C do not hit her wingtips."
+    explanation: "Airbus A320 generally requires 11 cones placed around nose, wings, A/C engines and tail area."
   },
   {
-    question: "Where should vehicles never pass during fueling operations?",
+    question: "How many cones are generally used for ATR aircraft?",
     options: [
-      "Behind fueling vehicle",
-      "In front of cockpit",
-      "Over fuel hoses",
-      "On pushback path"
-    ],
-    correct: 2,
-    explanation: "Vehicles must not cross over fuel hoses, as it can damage equipment and cause leaks."
-  },
-  {
-  question: "Is it acceptable to park equipment or vehicles in front of a fuel bowser if it’s only for a short time?",
-  options: [
-    "Yes, if someone stays with the vehicle",
-    "Only during night shift operations",
-    "No, it must always be kept clear",
-    "Yes, if the handbrake is applied"
-  ],
-  correct: 2,
-  explanation: "The area in front of a fuel bowser must always remain clear to allow emergency access and avoid obstruction during fueling operations—regardless of the duration."
-},
-  {
-    question: "When working close to aircraft engines, workers must wear:",
-    options: [
-      "Noise-cancelling headphones",
-      "Ear plugs",
-      "Sunglasses",
-      "Both A and B"
+      "2",
+      "4",
+      "6",
+      "10"
     ],
     correct: 3,
-    explanation: "Hearing protection is compulsory due to high decibel levels from running engines or APU."
+    explanation: "ATR aircraft are typically secured with 10 cones around propellers, wingtips, nose and tail of A/C."
   },
   {
-    question: "Why should safety cones be placed around fueling points?",
+    question: "What information does a wind chart provide to ramp staff?",
     options: [
-      "For decoration only",
-      "To prevent unauthorized movement of people/vehicles into fueling zone",
-      "To protect hoses from sun",
-      "As parking aids"
+      "Wind speed",
+      "Aircraft seating arrangement",
+      "Flight crew schedule",
+      "Fuel price updates"
+    ],
+    correct: 0,
+    explanation: "A wind chart gives  wind speed and what actions to be taken, helping align equipment and plan safe ramp operations."
+  },
+  {
+    question: "Why is the wind chart important during ramp operations?",
+    options: [
+      "It helps reduce delays",
+      "It guides safe placement of equipment and GSE",
+      "It tracks passenger movement",
+      "It indicates catering requirements"
     ],
     correct: 1,
-    explanation: "Safety cones mark fueling zones, protecting against accidental entry."
+    explanation: "Wind charts prevent FOD and ensure safe equipment alignment in high-wind conditions."
   },
   {
-    question: "When transporting tools and equipment on apron, they should always be:",
+    question: "Where should GSE be aligned during strong wind warnings?",
     options: [
-      "Openly placed in truck bed",
-      "Secured properly to prevent FOD",
-      "Carried by hand",
-      "Left at random locations"
+      "Away from aircraft and on designated parking bays",
+      "Behind catering trucks",
+      "Near terminal entrances",
+      "Anywhere on the apron"
+    ],
+    correct: 0,
+    explanation: "Equipment must be aligned facing the wind, brakes applied, and positioned away from aircraft."
+  },
+  {
+    question: "What should be done with lightweight equipment during weather warnings?",
+    options: [
+      "Leave it in position",
+      "Secure or remove from ramp",
+      "Hide under aircraft wing",
+      "Place near refueling area"
     ],
     correct: 1,
-    explanation: "All unattended or loose equipment on apron can turn into FOD, causing major hazards."
+    explanation: "Lightweight equipment must be secured or removed to prevent being blown into aircraft."
   },
   {
-    question: "What should be done before operating any GSE near an aircraft?",
+    question: "What is the acronym used for fire extinguisher operation?",
     options: [
-      "Check fluids only",
-      "Check brakes, condition, fuel, and verify clearance",
-      "Wait for pilot call",
-      "Skip checks if in a hurry"
+      "PASS",
+      "SAFE",
+      "STOP",
+      "FIRE"
+    ],
+    correct: 0,
+    explanation: "PASS = Pull the pin, Aim at base, Squeeze handle, Sweep side-to-side."
+  },
+  {
+    question: "What does 'P' stand for in the PASS acronym for fire extinguishers?",
+    options: [
+      "Push",
+      "Pull the pin",
+      "Protect",
+      "Pressure check"
     ],
     correct: 1,
-    explanation: "Pre-use checks guarantee safe operation and minimize breakdown near aircraft."
+    explanation: "'P' stands for Pull the pin to release the fire extinguisher lock."
   },
   {
-    question: "Who is responsible for ensuring proper PPE usage on ramp?",
+    question: "What does 'A' stand for in PASS acronym?",
     options: [
-      "Only employees",
-      "Supervisors only",
-      "Both employees and supervisors",
-      "Only airline pilots"
+      "Apply force",
+      "Aim at base of fire",
+      "Alert supervisor",
+      "Activate alarm"
+    ],
+    correct: 1,
+    explanation: "'A' stands for Aim the nozzle at the base of the fire."
+  },
+  {
+    question: "What does 'S' stand for in PASS (second S)?",
+    options: [
+      "Squeeze handle",
+      "Shut equipment",
+      "Spray randomly",
+      "Stand back"
+    ],
+    correct: 0,
+    explanation: "The first 'S' means Squeeze the handle to release agent."
+  },
+  {
+    question: "What does the final 'S' in PASS stand for?",
+    options: [
+      "Spray continuously",
+      "Sweep side to side",
+      "Stop immediately",
+      "Signal others"
+    ],
+    correct: 1,
+    explanation: "The last 'S' means Sweep the nozzle side to side across the base of the fire."
+  },
+  {
+    question: "Why is safety reporting mandatory in aviation ground operations?",
+    options: [
+      "To punish employees",
+      "To hide incidents",
+      "To prevent recurrence of hazards",
+      "For paperwork only"
     ],
     correct: 2,
-    explanation: "Both staff and supervisors are equally responsible for PPE compliance."
+    explanation: "Reporting hazards helps identify risks early and prevents accidents."
   },
   {
-    question: "During fueling, which items must remain switched OFF?",
+    question: "Who can submit a safety report?",
     options: [
-      "Engines and mobile phones",
-      "Apron lights",
-      "Chocks",
-      "Wing walkers"
-    ],
-    correct: 0,
-    explanation: "Engines and mobile phones are ignition hazards and must remain OFF during fueling."
-  },
-  {
-    question: "Which line indicates aircraft holding position near a runway?",
-    options: [
-      "Double yellow continuous with dashed yellow",
-      "Blue strip",
-      "Red stop bar",
-      "White solid line"
-    ],
-    correct: 0,
-    explanation: "A holding position is marked with two solid and two dashed yellow bars across taxiway."
-  },
-  {
-    question: "Which apron marking color indicates 'no entry' area for vehicles?",
-    options: [
-      "Red",
-      "Black",
-      "White",
-      "Green"
-    ],
-    correct: 0,
-    explanation: "Red zones indicate strictly prohibited or safety-risk areas."
-  },
-  {
-    question: "Who must verify clearance during wing walking operations?",
-    options: [
-      "Only supervisor",
-      "The wing walker(s)",
-      "The pilot in cockpit",
-      "Air traffic control"
+      "Only supervisors",
+      "Any employee observing unsafe condition",
+      "Only pilots",
+      "Only managers"
     ],
     correct: 1,
-    explanation: "Wing walkers ensure ground vehicles maintain safe clearance near wings."
+    explanation: "Every employee is responsible and empowered to submit safety reports."
   },
   {
-    question: "How should biohazard PPE waste be discarded after ramp operations?",
+    question: "When should a safety hazard be reported?",
     options: [
-      "Dumped in general garbage",
-      "Placed in yellow biohazard bins",
-      "Burned immediately",
-      "Left on ramp"
+      "Only if an accident occurs",
+      "Immediately after identifying unsafe condition",
+      "During audits only",
+      "At the end of the month"
     ],
     correct: 1,
-    explanation: "Biohazard PPE must be placed carefully in yellow-coded waste bins."
+    explanation: "Hazards should be reported immediately to prevent incidents."
   },
   {
-    question: "Why must apron speed limits be strictly observed?",
+    question: "What is FOD in ramp safety?",
     options: [
-      "To save time",
-      "To avoid surveillance cameras",
-      "To minimize accident risks near aircraft and pedestrians",
-      "To make supervisors happy"
+      "Foreign Object Debris",
+      "Fuel on Demand",
+      "Flight Operations Desk",
+      "Fire Operations Drill"
     ],
-    correct: 2,
-    explanation: "Speeding is a major safety hazard and is strictly prohibited in apron/ramp areas."
+    correct: 0,
+    explanation: "FOD stands for Foreign Object Debris, which can cause serious aircraft damage."
   },
   {
-    question: "When should a ground vehicle stop immediately on taxiway?",
+    question: "Why must cones be placed around parked aircraft?",
     options: [
-      "When approaching runway holding point",
-      "At designated apron crossing",
-      "On seeing stop point marking",
-      "All of the above"
-    ],
-    correct: 3,
-    explanation: "Stopping is mandated at all such designated markings to prevent incident with active aircraft."
-  },
-  {
-    question: "Why is wing walking necessary in congested apron areas?",
-    options: [
-      "For exercise",
-      "To guide vehicle safely without striking aircraft surfaces",
+      "To help passengers navigate",
+      "To restrict movement of vehicles and GSE into unsafe zones",
       "For decoration",
-      "Because rules require it but not needed"
+      "To help pilots park"
     ],
     correct: 1,
-    explanation: "Wing walkers physically guide vehicles around tight clearance zones near aircraft."
+    explanation: "Cones clearly define safe zones, preventing collisions with wings, engines, and tail."
+  },
+  {
+    question: "Who gives clearance to remove chocks from an aircraft?",
+    options: [
+      "Loadmaster",
+      "AME",
+      "Any ground staff",
+      "Passengers"
+    ],
+    correct: 1,
+    explanation: "Chocks are removed only after explicit clearance from AME."
+  },
+  {
+    question: "What should be ensured before approaching an aircraft hold to open it?",
+    options: [
+      "Engines are shut down and beacon lights are off",
+      "APU is running",
+      "Passengers are seated",
+      "Wing walkers are ready"
+    ],
+    correct: 0,
+    explanation: "Holds must only be approached after engines are shut and anti-collision beacon lights are OFF."
+  },
+  {
+    question: "What must be checked before aligning equipment with the aircraft?",
+    options: [
+      "Beacon light off and aircraft chocked",
+      "Pilot ready",
+      "Supervisor watching",
+      "All doors closed"
+    ],
+    correct: 0,
+    explanation: "Equipment must only be aligned when the aircraft is fully secured with beacon off and chocks in place."
+  },
+  {
+    question: "Who is responsible for ensuring cones and chocks are properly placed?",
+    options: [
+      "The pilot",
+      "Authorized ground handling staff",
+      "Cabin crew",
+      "Passengers"
+    ],
+    correct: 1,
+    explanation: "Ground handling staff are responsible for correct placement of cones and chocks for safety."
   }
 ];
 
