@@ -1,0 +1,595 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap">
+
+  <meta charset="UTF-8">
+  <title>Ramp Safety Quiz</title>
+  <style>
+    body {
+  font-family: 'Inter', Arial, sans-serif;
+  background: linear-gradient(120deg, #e3f6f5 0%, #ffe8d6 100%);
+  color: #23395d;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  width: 96%;
+  max-width: 500px;
+  margin: 40px auto 0 auto;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(34,57,93,0.15);
+  padding: 32px 24px;
+  position: relative;
+}
+
+h1 {
+  font-size: 2.2em;
+  color: #207bfa;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+
+#progress-container {
+  width: 100%;
+  background: #e9ecef;
+  height: 12px;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+#progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #207bfa 0%, #43cea2 100%);
+  transition: width 0.4s ease;
+}
+
+#question-counter {
+  font-size: 1.1em;
+  font-weight: 600;
+  color: #525252;
+  margin: 14px 0 18px 0;
+}
+
+.card {
+  background: #f9f9fb;
+  padding: 28px 24px;
+  border-radius: 16px;
+  box-shadow: 0 2px 14px rgba(34,57,93,0.07);
+  text-align: left;
+}
+
+.options label {
+  display: block;
+  background: #f5fafd;
+  font-size: 1em;
+  margin: 10px 0;
+  cursor: pointer;
+  padding: 11px 16px;
+  border-radius: 8px;
+  border: 2px solid #e3f6f5;
+  transition: background 0.3s, border-color 0.3s;
+}
+
+.options label:hover, .options input:focus + label {
+  background: #e3f6f5;
+  border-color: #207bfa;
+}
+
+.options input {
+  margin-right: 11px;
+}
+
+.btn {
+  display: inline-block;
+  margin: 18px 10px 0 0;
+  padding: 12px 30px;
+  font-size: 1.15em;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #207bfa 0%, #43cea2 100%);
+  color: #fff;
+  box-shadow: 0 3px 10px rgba(34,57,93,0.08);
+  transition: background 0.25s;
+}
+
+.btn:hover { background: linear-gradient(90deg, #43cea2 0%, #207bfa 100%); }
+
+.correct { background: #e6ffed !important; border-color: #43cea2 !important; }
+.wrong { background: #ffebef !important; border-color: #fa205c !important; }
+
+.timer {
+  font-weight: bold;
+  margin-bottom: 15px;
+  font-size: 1.08em;
+  color: #207bfa;
+}
+
+.timer.red { color: #fa205c; }
+.timer.green { color: #43cea2; }
+
+.explanation {
+  margin-top: 18px;
+  padding: 12px 16px;
+  background: #f6f3e9;
+  border-left: 5px solid #43cea2;
+  border-radius: 0 8px 8px 0;
+  font-size: 0.99em;
+  color: #525252;
+}
+
+#alert {
+  display: none;
+  font-size: 1.07em;
+  color: #fa205c;
+  letter-spacing: 0.5px;
+  margin: 6px 0;
+  font-weight: 700;
+}
+
+#sound-toggle {
+  margin: 18px 0;
+  cursor: pointer;
+  font-size: 1em;
+  color: #43cea2;
+  font-weight: 600;
+}
+
+#score-container {
+  margin-top: 22px;
+}
+
+.highlight-latest-result {
+  font-size: 1.33em;
+  font-weight: 800;
+  letter-spacing: 1px;
+  margin-bottom: 18px;
+  color: #207bfa;
+}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Ramp Safety Quiz</h1>
+    <div id="sound-toggle" onclick="toggleSound()">
+      <span id="sound-icon">🔊</span> <span id="sound-text">Sound ON</span>
+    </div>
+    <div id="progress-container"><div id="progress-bar"></div></div>
+    <div id="question-counter"></div>
+    <div id="alert">⏰ Hurry! Time is almost up!</div>
+    <div id="quiz-container"></div>
+    <div id="score-container"></div>
+    <button id="start-button" class="btn">Start Quiz</button>
+  </div>
+  <audio id="correct-sound" src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg"></audio>
+
+  <audio id="wrong-sound" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"></audio>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script>
+
+
+const quizData = [
+  {
+    question: "What should you check before operating ground support equipment (GSE)?",
+    options: [
+      "Coding, Branding, Cleaning",
+      "Chocks, Jacks",
+      "Fuel level and brakes",
+      "All of the above"
+    ],
+    correct: 3,
+    explanation: "Before using GSE, always check fuel, brakes, and functionality to ensure safe operations. Branding means to check if equipmnt belongs to IndiGo or not."
+  },
+  {
+    question: "How should you approach an aircraft with ground vehicle?",
+    options: [
+      "At any angle, quickly",
+      "From the rear where engines are",
+      "Only through designated service roads and approved approach routes",
+      "Head-on to the cockpit"
+    ],
+    correct: 2,
+    explanation: "Vehicles must approach aircraft only via designated service routes to avoid accidents."
+  },
+  {
+    question: "When an aircraft engine is running, staff must:",
+    options: [
+      "Stay clear of the engine intake/exhaust zones",
+      "Touch the fuselage",
+      "Walk under the wing",
+      "Stand near intake for warm air"
+    ],
+    correct: 0,
+    explanation: "Engines produce extreme suction and jet blast; staff must avoid intake and exhaust zones."
+  },
+  {
+    question: "Which lights must be ON for a vehicle moving in ramp during night?",
+    options: [
+      "Only hazard lights",
+      "Headlights and rotating beacon if fitted",
+      "No lights required",
+      "Cabin light only"
+    ],
+    correct: 1,
+    explanation: "Vehicles must use headlights and rotating beacon lights for safe night visibility."
+  },
+  {
+    question: "What is a chock used for?",
+    options: [
+      "Locking passenger doors",
+      "Securing aircraft tires",
+      "Signaling marshallers",
+      "Stopping fuel leaks"
+    ],
+    correct: 1,
+    explanation: "Chocks are placed against aircraft wheels to prevent unintended movement."
+  },
+  {
+    question: "How should baggage carts be parked near the aircraft?",
+    options: [
+      "Close to the engines",
+      "With brakes on and at a safe clearance",
+      "Anywhere near the fuselage",
+      "Directly under the wing"
+    ],
+    correct: 1,
+    explanation: "Baggage carts must be braked and parked with safe clearance to avoid collisions."
+  },
+  {
+    question: "Which ramp signal means 'Stop immediately' for pilots?",
+    options: [
+      "Two arms held high and motionless",
+      "Circular waving",
+      "Arms crossed overhead",
+      "Thumbs up"
+    ],
+    correct: 2,
+    explanation: "Arms crossed overhead signals pilots to stop immediately."
+  },
+  {
+    question: "Why are reflective safety cones placed around an aircraft?",
+    options: [
+      "Decoration",
+      "Marking safe zones and preventing vehicle entry without supervision",
+      "For light during night",
+      "To guide passengers"
+    ],
+    correct: 1,
+    explanation: "Cones define safety boundaries and prevent unauthorized vehicle approaches."
+  },
+  {
+    question: "What is the first action during fire on ramp?",
+    options: [
+      "Run towards fire",
+      "Inform supervisor and activate fire alarm",
+      "Take pictures",
+      "Ignore until instructed"
+    ],
+    correct: 1,
+    explanation: "Emergencies must be reported immediately and alarms raised for fire crew response."
+  },
+  {
+    question: "Vehicles on apron should never:",
+    options: [
+      "Exceed designated speed limits",
+      "Use mirrors",
+      "Wear seatbelts",
+      "Use hand brakes"
+    ],
+    correct: 0,
+    explanation: "Speeding can cause collisions; strict adherence to apron speed limits is mandatory."
+  },
+  {
+    question: "Which PPE protects against eye injuries from debris on the ramp?",
+    options: [
+      "Hard hat",
+      "Safety goggles",
+      "Reflective vest",
+      "Steel-toe boots"
+    ],
+    correct: 1,
+    explanation: "Goggles protect eyes from dust, debris, and chemical splashes common on the ramp."
+  },
+  {
+    question: "Why is housekeeping important in ramp safety?",
+    options: [
+      "Reduces clutter and prevents FOD",
+      "Makes ramp look good only",
+      "Keeps supervisors happy",
+      "Saves time"
+    ],
+    correct: 0,
+    explanation: "Clean ramps prevent FOD damage and reduce trip hazards."
+  },
+  {
+    question: "Before towing an aircraft, personnel must:",
+    options: [
+      "Check communication with cockpit and ground crew",
+      "Push manually",
+      "Assume pilots will guide",
+      "Avoid using tow bars"
+    ],
+    correct: 0,
+    explanation: "Clear communication ensures safe towing without miscoordination."
+  },
+  {
+    question: "Why must seatbelts be worn inside ramp vehicles?",
+    options: [
+      "For comfort",
+      "Because they are compulsory by law",
+      "To minimize injury in sudden stops or accidents",
+      "To impress supervisor"
+    ],
+    correct: 2,
+    explanation: "Seatbelts protect staff from injury in case of accidents or abrupt braking."
+  },
+  {
+    question: "During aircraft fueling, what must remain switched OFF?",
+    options: [
+      "Mobile phones and vehicle engines nearby",
+      "Flashlights",
+      "Apron floodlights",
+      "Marshal signals"
+    ],
+    correct: 0,
+    explanation: "Mobile devices and engines must be off to avoid ignition during fueling."
+  },
+  {
+    question: "What should you do if lightning occurs near ramp during operations?",
+    options: [
+      "Continue working as normal",
+      "Stop operations and take shelter",
+      "Hold metallic tools tightly",
+      "Use cones for protection"
+    ],
+    correct: 1,
+    explanation: "Personnel must suspend ramp work and move to safe shelters during lightning."
+  },
+  {
+    question: "What does a rotating beacon light on top of an aircraft indicate?",
+    options: [
+      "Aircraft systems are powered and engines may be running",
+      "Aircraft is empty",
+      "Safe to approach",
+      "Start boarding"
+    ],
+    correct: 0,
+    explanation: "Rotating red beacon indicates aircraft systems active – personnel must stay clear."
+  },
+  {
+    question: "Why must cargo doors be handled by trained staff only?",
+    options: [
+      "Doors are delicate and heavy, requiring specific safety knowledge",
+      "Anyone can open cargo doors",
+      "Because they are locked for decoration",
+      "For passenger entertainment"
+    ],
+    correct: 0,
+    explanation: "Cargo doors require specific procedures to avoid damage and personnel injury."
+  },
+  {
+    question: "Why should service vehicles maintain safe distance from aircraft wings?",
+    options: [
+      "To avoid shade",
+      "For quicker driving",
+      "To check paint quality",
+      "To avoid damaging wingtips and control surfaces"
+    ],
+    correct: 3,
+    explanation: "Safe clearance prevents structural damage to wings and injuries."
+  },
+  {
+    question: "Why must ground crew wear hearing protection near APU operation?",
+    options: [
+      "APU generates extremely high noise levels",
+      "It looks professional",
+      "It’s in regulations only",
+      "To block out colleagues"
+    ],
+    correct: 0,
+    explanation: "APU noise is just as hazardous as jet engines, requiring ear protection."
+  },
+  {
+    question: "When reversing a ramp vehicle without rear visibility, you must:",
+    options: [
+      "Rely on mirrors only",
+      "Ask a colleague to guide you",
+      "Reverse quickly before anyone comes",
+      "Honk continuously"
+    ],
+    correct: 1,
+    explanation: "A signal guide ensures safe reversing of vehicles with blind spots."
+  },
+  {
+    question: "What should be done if you notice a hydraulic fluid leak from aircraft?",
+    options: [
+      "Ignore if small",
+      "Report immediately to supervisor and maintenance",
+      "Clean it secretly",
+      "Step on it to test"
+    ],
+    correct: 1,
+    explanation: "All fluid leaks must be reported immediately due to fire and system hazards."
+  },
+  {
+    question: "Why must ladders be secured when placed against aircraft?",
+    options: [
+      "To prevent slipping and damaging aircraft body",
+      "To look tidy",
+      "Ladders don’t need support",
+      "Passengers will climb"
+    ],
+    correct: 0,
+    explanation: "Loose ladders can slip, causing injury and aircraft damage."
+  },
+  {
+    question: "When should mobile phones NOT be used on ramp?",
+    options: [
+      "During lunch breaks",
+       "Near fueling areas and active aircraft operations", 
+      "While waiting for shift",
+      "Inside the office"
+    ],
+    correct: 1,
+    explanation: "Phones near fueling and operations create ignition and distraction risks."
+  },
+  {
+    question: "Which of the following is NOT allowed in ramp area?",
+    options: [
+      "Using approved signals",
+      "Wearing protective vest",
+      "Conducting FOD checks",
+      "Horseplay or running"
+    ],
+    correct: 3,
+    explanation: "Running or unsafe behavior causes accidents – prohibited on apron."
+  }
+];
+
+let currentQuestion = 0;
+    let score = 0;
+    let timer;
+    let timeLeft = 20;
+    let soundOn = true;
+    const userAnswers = [];
+    const allResults = [];
+    const quizContainer = document.getElementById("quiz-container");
+    const scoreContainer = document.getElementById("score-container");
+    const progressBar = document.getElementById("progress-bar");
+    const questionCounter = document.getElementById("question-counter");
+    const alertBox = document.getElementById("alert");
+    const startButton = document.getElementById("start-button");
+    const correctSound = document.getElementById("correct-sound");
+    const wrongSound = document.getElementById("wrong-sound");
+
+    function startQuiz() {
+      currentQuestion = 0;
+      score = 0;
+      userAnswers.length = 0;
+      startButton.style.display = "none";
+      scoreContainer.innerHTML = "";
+      showQuestion();
+    }
+    function showQuestion() {
+      clearInterval(timer);
+      timeLeft = 20;
+      updateTimer();
+      const questionData = quizData[currentQuestion];
+      quizContainer.innerHTML = `
+        <div class="card">
+          <div class="timer" id="timer">Time left: ${timeLeft}s</div>
+          <h2>${questionData.question}</h2>
+          <div class="options">
+            ${questionData.options.map((opt, i) =>
+              `<label><input type="radio" name="answer" value="${i}"> ${opt}</label>`
+            ).join("")}
+          </div>
+          <button class="btn" onclick="submitAnswer()">Submit</button>
+        </div>
+      `;
+      questionCounter.textContent = `Question ${currentQuestion + 1} of ${quizData.length}`;
+      progressBar.style.width = `${((currentQuestion) / quizData.length) * 100}%`;
+      timer = setInterval(() => {
+        timeLeft--;
+        updateTimer();
+        if (timeLeft <= 5) alertBox.style.display = "block";
+        if (timeLeft === 0) submitAnswer();
+      }, 1000);
+    }
+    function updateTimer() {
+      const timerEl = document.getElementById("timer");
+      if (!timerEl) return;
+      timerEl.textContent = `Time left: ${timeLeft}s`;
+      timerEl.className = "timer " + (timeLeft <= 5 ? "red" : "green");
+    }
+    function submitAnswer() {
+      clearInterval(timer);
+      alertBox.style.display = "none";
+      const selected = document.querySelector('input[name="answer"]:checked');
+      const questionData = quizData[currentQuestion];
+      let isCorrect = false;
+      if (selected) {
+        const answer = parseInt(selected.value);
+        userAnswers[currentQuestion] = answer;
+        if (answer === questionData.correct) {
+          score++;
+          isCorrect = true;
+        }
+      } else {
+        userAnswers[currentQuestion] = null;
+      }
+      const options = document.querySelectorAll(".options label");
+      options.forEach((opt, i) => {
+        if (i === questionData.correct) opt.classList.add("correct");
+        else if (selected && i === parseInt(selected.value)) opt.classList.add("wrong");
+      });
+      setTimeout(() => {
+        if (isCorrect) {
+          if (soundOn) correctSound.play();
+          confetti({ particleCount: 80, spread: 70, origin: { y: 0.6 } });
+        } else {
+          if (soundOn) wrongSound.play();
+        }
+      }, 300);
+      quizContainer.innerHTML += `
+        <div class="explanation"><strong>Explanation:</strong> ${questionData.explanation}</div>
+        <button class="btn" onclick="nextQuestion()">Next</button>
+      `;
+      document.querySelectorAll('input[name="answer"]').forEach(i => i.disabled = true);
+      document.querySelector('.btn').disabled = true;
+    }
+    function nextQuestion() {
+      currentQuestion++;
+      if (currentQuestion < quizData.length) {
+        showQuestion();
+      } else {
+        showScore();
+      }
+    }
+    function showScore() {
+      progressBar.style.width = "100%";
+      quizContainer.innerHTML = "";
+      scoreContainer.innerHTML = `
+        <div class="highlight-latest-result">You scored ${score} out of ${quizData.length}!</div>
+        <button class="btn" onclick="startQuiz()">Restart Quiz</button>
+        <button class="btn" onclick="exportPDF()">Export Results</button>
+      `;
+      allResults.push({ date: new Date().toLocaleString(), score: `${score}/${quizData.length}` });
+      localStorage.setItem("quizResults", JSON.stringify(allResults));
+      startButton.style.display = "inline-block";
+    }
+    function toggleSound() {
+      soundOn = !soundOn;
+      document.getElementById("sound-icon").textContent = soundOn ? "🔊" : "🔇";
+      document.getElementById("sound-text").textContent = soundOn ? "Sound ON" : "Sound OFF";
+    }
+    function exportPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      doc.setFontSize(16);
+      doc.text("Quiz Results", 10, 10);
+      let y = 20;
+      allResults.forEach((res, i) => {
+        doc.text(`${i + 1}. ${res.date} - Score: ${res.score}`, 10, y);
+        y += 10;
+      });
+      doc.save("quiz_results.pdf");
+    }
+    window.onload = () => {
+      const saved = localStorage.getItem("quizResults");
+      if (saved) allResults.push(...JSON.parse(saved));
+    };
+    startButton.addEventListener("click", startQuiz);
+  </script>
+</body>
+</html>

@@ -1,0 +1,319 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap">
+
+  <meta charset="UTF-8">
+  <title>Ramp Safety Quiz</title>
+  <style>
+    body {
+  font-family: 'Inter', Arial, sans-serif;
+  background: linear-gradient(120deg, #e3f6f5 0%, #ffe8d6 100%);
+  color: #23395d;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  width: 96%;
+  max-width: 500px;
+  margin: 40px auto 0 auto;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(34,57,93,0.15);
+  padding: 32px 24px;
+  position: relative;
+}
+
+h1 {
+  font-size: 2.2em;
+  color: #207bfa;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+
+#progress-container {
+  width: 100%;
+  background: #e9ecef;
+  height: 12px;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+#progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #207bfa 0%, #43cea2 100%);
+  transition: width 0.4s ease;
+}
+
+#question-counter {
+  font-size: 1.1em;
+  font-weight: 600;
+  color: #525252;
+  margin: 14px 0 18px 0;
+}
+
+.card {
+  background: #f9f9fb;
+  padding: 28px 24px;
+  border-radius: 16px;
+  box-shadow: 0 2px 14px rgba(34,57,93,0.07);
+  text-align: left;
+}
+
+.options label {
+  display: block;
+  background: #f5fafd;
+  font-size: 1em;
+  margin: 10px 0;
+  cursor: pointer;
+  padding: 11px 16px;
+  border-radius: 8px;
+  border: 2px solid #e3f6f5;
+  transition: background 0.3s, border-color 0.3s;
+}
+
+.options label:hover, .options input:focus + label {
+  background: #e3f6f5;
+  border-color: #207bfa;
+}
+
+.options input {
+  margin-right: 11px;
+}
+
+.btn {
+  display: inline-block;
+  margin: 18px 10px 0 0;
+  padding: 12px 30px;
+  font-size: 1.15em;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #207bfa 0%, #43cea2 100%);
+  color: #fff;
+  box-shadow: 0 3px 10px rgba(34,57,93,0.08);
+  transition: background 0.25s;
+}
+
+.btn:hover { background: linear-gradient(90deg, #43cea2 0%, #207bfa 100%); }
+
+.correct { background: #e6ffed !important; border-color: #43cea2 !important; }
+.wrong { background: #ffebef !important; border-color: #fa205c !important; }
+
+.timer {
+  font-weight: bold;
+  margin-bottom: 15px;
+  font-size: 1.08em;
+  color: #207bfa;
+}
+
+.timer.red { color: #fa205c; }
+.timer.green { color: #43cea2; }
+
+.explanation {
+  margin-top: 18px;
+  padding: 12px 16px;
+  background: #f6f3e9;
+  border-left: 5px solid #43cea2;
+  border-radius: 0 8px 8px 0;
+  font-size: 0.99em;
+  color: #525252;
+}
+
+#alert {
+  display: none;
+  font-size: 1.07em;
+  color: #fa205c;
+  letter-spacing: 0.5px;
+  margin: 6px 0;
+  font-weight: 700;
+}
+
+#sound-toggle {
+  margin: 18px 0;
+  cursor: pointer;
+  font-size: 1em;
+  color: #43cea2;
+  font-weight: 600;
+}
+
+#score-container {
+  margin-top: 22px;
+}
+
+.highlight-latest-result {
+  font-size: 1.33em;
+  font-weight: 800;
+  letter-spacing: 1px;
+  margin-bottom: 18px;
+  color: #207bfa;
+}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Ramp Safety Quiz</h1>
+    <div id="sound-toggle" onclick="toggleSound()">
+      <span id="sound-icon">🔊</span> <span id="sound-text">Sound ON</span>
+    </div>
+    <div id="progress-container"><div id="progress-bar"></div></div>
+    <div id="question-counter"></div>
+    <div id="alert">⏰ Hurry! Time is almost up!</div>
+    <div id="quiz-container"></div>
+    <div id="score-container"></div>
+    <button id="start-button" class="btn">Start Quiz</button>
+  </div>
+  <audio id="correct-sound" src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg"></audio>
+
+  <audio id="wrong-sound" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"></audio>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script>
+
+
+
+
+let currentQuestion = 0;
+    let score = 0;
+    let timer;
+    let timeLeft = 20;
+    let soundOn = true;
+    const userAnswers = [];
+    const allResults = [];
+    const quizContainer = document.getElementById("quiz-container");
+    const scoreContainer = document.getElementById("score-container");
+    const progressBar = document.getElementById("progress-bar");
+    const questionCounter = document.getElementById("question-counter");
+    const alertBox = document.getElementById("alert");
+    const startButton = document.getElementById("start-button");
+    const correctSound = document.getElementById("correct-sound");
+    const wrongSound = document.getElementById("wrong-sound");
+
+    function startQuiz() {
+      currentQuestion = 0;
+      score = 0;
+      userAnswers.length = 0;
+      startButton.style.display = "none";
+      scoreContainer.innerHTML = "";
+      showQuestion();
+    }
+    function showQuestion() {
+      clearInterval(timer);
+      timeLeft = 20;
+      updateTimer();
+      const questionData = quizData[currentQuestion];
+      quizContainer.innerHTML = `
+        <div class="card">
+          <div class="timer" id="timer">Time left: ${timeLeft}s</div>
+          <h2>${questionData.question}</h2>
+          <div class="options">
+            ${questionData.options.map((opt, i) =>
+              `<label><input type="radio" name="answer" value="${i}"> ${opt}</label>`
+            ).join("")}
+          </div>
+          <button class="btn" onclick="submitAnswer()">Submit</button>
+        </div>
+      `;
+      questionCounter.textContent = `Question ${currentQuestion + 1} of ${quizData.length}`;
+      progressBar.style.width = `${((currentQuestion) / quizData.length) * 100}%`;
+      timer = setInterval(() => {
+        timeLeft--;
+        updateTimer();
+        if (timeLeft <= 5) alertBox.style.display = "block";
+        if (timeLeft === 0) submitAnswer();
+      }, 1000);
+    }
+    function updateTimer() {
+      const timerEl = document.getElementById("timer");
+      if (!timerEl) return;
+      timerEl.textContent = `Time left: ${timeLeft}s`;
+      timerEl.className = "timer " + (timeLeft <= 5 ? "red" : "green");
+    }
+    function submitAnswer() {
+      clearInterval(timer);
+      alertBox.style.display = "none";
+      const selected = document.querySelector('input[name="answer"]:checked');
+      const questionData = quizData[currentQuestion];
+      let isCorrect = false;
+      if (selected) {
+        const answer = parseInt(selected.value);
+        userAnswers[currentQuestion] = answer;
+        if (answer === questionData.correct) {
+          score++;
+          isCorrect = true;
+        }
+      } else {
+        userAnswers[currentQuestion] = null;
+      }
+      const options = document.querySelectorAll(".options label");
+      options.forEach((opt, i) => {
+        if (i === questionData.correct) opt.classList.add("correct");
+        else if (selected && i === parseInt(selected.value)) opt.classList.add("wrong");
+      });
+      setTimeout(() => {
+        if (isCorrect) {
+          if (soundOn) correctSound.play();
+          confetti({ particleCount: 80, spread: 70, origin: { y: 0.6 } });
+        } else {
+          if (soundOn) wrongSound.play();
+        }
+      }, 300);
+      quizContainer.innerHTML += `
+        <div class="explanation"><strong>Explanation:</strong> ${questionData.explanation}</div>
+        <button class="btn" onclick="nextQuestion()">Next</button>
+      `;
+      document.querySelectorAll('input[name="answer"]').forEach(i => i.disabled = true);
+      document.querySelector('.btn').disabled = true;
+    }
+    function nextQuestion() {
+      currentQuestion++;
+      if (currentQuestion < quizData.length) {
+        showQuestion();
+      } else {
+        showScore();
+      }
+    }
+    function showScore() {
+      progressBar.style.width = "100%";
+      quizContainer.innerHTML = "";
+      scoreContainer.innerHTML = `
+        <div class="highlight-latest-result">You scored ${score} out of ${quizData.length}!</div>
+        <button class="btn" onclick="startQuiz()">Restart Quiz</button>
+        <button class="btn" onclick="exportPDF()">Export Results</button>
+      `;
+      allResults.push({ date: new Date().toLocaleString(), score: `${score}/${quizData.length}` });
+      localStorage.setItem("quizResults", JSON.stringify(allResults));
+      startButton.style.display = "inline-block";
+    }
+    function toggleSound() {
+      soundOn = !soundOn;
+      document.getElementById("sound-icon").textContent = soundOn ? "🔊" : "🔇";
+      document.getElementById("sound-text").textContent = soundOn ? "Sound ON" : "Sound OFF";
+    }
+    function exportPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      doc.setFontSize(16);
+      doc.text("Quiz Results", 10, 10);
+      let y = 20;
+      allResults.forEach((res, i) => {
+        doc.text(`${i + 1}. ${res.date} - Score: ${res.score}`, 10, y);
+        y += 10;
+      });
+      doc.save("quiz_results.pdf");
+    }
+    window.onload = () => {
+      const saved = localStorage.getItem("quizResults");
+      if (saved) allResults.push(...JSON.parse(saved));
+    };
+    startButton.addEventListener("click", startQuiz);
+  </script>
+</body>
+</html>

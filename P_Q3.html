@@ -1,0 +1,622 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap">
+
+  <meta charset="UTF-8">
+  <title>Ramp Safety Quiz</title>
+  <style>
+    body {
+  font-family: 'Inter', Arial, sans-serif;
+  background: linear-gradient(120deg, #e3f6f5 0%, #ffe8d6 100%);
+  color: #23395d;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  width: 96%;
+  max-width: 500px;
+  margin: 40px auto 0 auto;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(34,57,93,0.15);
+  padding: 32px 24px;
+  position: relative;
+}
+
+h1 {
+  font-size: 2.2em;
+  color: #207bfa;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+
+#progress-container {
+  width: 100%;
+  background: #e9ecef;
+  height: 12px;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+#progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #207bfa 0%, #43cea2 100%);
+  transition: width 0.4s ease;
+}
+
+#question-counter {
+  font-size: 1.1em;
+  font-weight: 600;
+  color: #525252;
+  margin: 14px 0 18px 0;
+}
+
+.card {
+  background: #f9f9fb;
+  padding: 28px 24px;
+  border-radius: 16px;
+  box-shadow: 0 2px 14px rgba(34,57,93,0.07);
+  text-align: left;
+}
+
+.options label {
+  display: block;
+  background: #f5fafd;
+  font-size: 1em;
+  margin: 10px 0;
+  cursor: pointer;
+  padding: 11px 16px;
+  border-radius: 8px;
+  border: 2px solid #e3f6f5;
+  transition: background 0.3s, border-color 0.3s;
+}
+
+.options label:hover, .options input:focus + label {
+  background: #e3f6f5;
+  border-color: #207bfa;
+}
+
+.options input {
+  margin-right: 11px;
+}
+
+.btn {
+  display: inline-block;
+  margin: 18px 10px 0 0;
+  padding: 12px 30px;
+  font-size: 1.15em;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #207bfa 0%, #43cea2 100%);
+  color: #fff;
+  box-shadow: 0 3px 10px rgba(34,57,93,0.08);
+  transition: background 0.25s;
+}
+
+.btn:hover { background: linear-gradient(90deg, #43cea2 0%, #207bfa 100%); }
+
+.correct { background: #e6ffed !important; border-color: #43cea2 !important; }
+.wrong { background: #ffebef !important; border-color: #fa205c !important; }
+
+.timer {
+  font-weight: bold;
+  margin-bottom: 15px;
+  font-size: 1.08em;
+  color: #207bfa;
+}
+
+.timer.red { color: #fa205c; }
+.timer.green { color: #43cea2; }
+
+.explanation {
+  margin-top: 18px;
+  padding: 12px 16px;
+  background: #f6f3e9;
+  border-left: 5px solid #43cea2;
+  border-radius: 0 8px 8px 0;
+  font-size: 0.99em;
+  color: #525252;
+}
+
+#alert {
+  display: none;
+  font-size: 1.07em;
+  color: #fa205c;
+  letter-spacing: 0.5px;
+  margin: 6px 0;
+  font-weight: 700;
+}
+
+#sound-toggle {
+  margin: 18px 0;
+  cursor: pointer;
+  font-size: 1em;
+  color: #43cea2;
+  font-weight: 600;
+}
+
+#score-container {
+  margin-top: 22px;
+}
+
+.highlight-latest-result {
+  font-size: 1.33em;
+  font-weight: 800;
+  letter-spacing: 1px;
+  margin-bottom: 18px;
+  color: #207bfa;
+}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Ramp Safety Quiz</h1>
+    <div id="sound-toggle" onclick="toggleSound()">
+      <span id="sound-icon">🔊</span> <span id="sound-text">Sound ON</span>
+    </div>
+    <div id="progress-container"><div id="progress-bar"></div></div>
+    <div id="question-counter"></div>
+    <div id="alert">⏰ Hurry! Time is almost up!</div>
+    <div id="quiz-container"></div>
+    <div id="score-container"></div>
+    <button id="start-button" class="btn">Start Quiz</button>
+  </div>
+  <audio id="correct-sound" src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg"></audio>
+
+  <audio id="wrong-sound" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"></audio>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script>
+ const quizData = [
+  {
+    question: "What is the color of the centerline marking on a bay?",
+    options: [
+      "Blue",
+      "Yellow",
+      "White",
+      "Red"
+    ],
+    correct: 1,
+    explanation: "Centerlines are marked in continuous yellow to guide aircraft safely."
+  },
+  {
+    question: "What color is used for runway markings?",
+    options: [
+      "Red",
+      "Yellow",
+      "White",
+      "Blue"
+    ],
+    correct: 2,
+    explanation: "Runway are painted white for maximum visibility to pilots."
+  },
+  {
+    question: "What is the full form of  TCL?",
+    options: [
+      "Taxiway Center Line",
+      "Traffic Control Limit",
+      "Tail Cone Latch",
+      "Tail Clearance Line"
+    ],
+    correct: 3,
+    explanation: "TCL stands for Tail Clearance Line."
+  },
+  {
+    question: "What color is used to identify the stop point inside bay?",
+    options: [
+      "Grey",
+      "Yellow",
+      "White",
+      "Black"
+    ],
+    correct: 1,
+    explanation: "Stop points are yellow, helping pilots and ground staff stop at the correct location."
+  },
+  {
+    question: "What does a TCL marking look like?",
+    options: [
+      "Continuous double yellow line",
+      "Continuous single red line",
+      "Single continuous yellow line",
+      "Broken white line"
+    ],
+    correct: 1,
+    explanation: "A Tail clearance line is a single continuous red line, esnuring A/C tail is within the TCL line, when parked."
+  },
+  {
+    question: "What should vehicle speed not exceed while driving on the boundary wall?",
+    options: [
+      "30 km/h",
+      "35 km/h",
+      "40 km/h",
+      "50 km/h"
+    ],
+    correct: 0,
+    explanation: "The bondary wall speed limit is 30 km/h to ensure maximum safety around aircraft."
+  },
+  {
+    question: "What is the vehicle speed limit when driving near an aircraft on the service road?",
+    options: [
+      "10 km/h",
+      "25 km/h",
+      "20 km/h",
+      "15 km/h"
+    ],
+    correct: 3,
+    explanation: "When close to aircraft, speed should not exceed 15 km/h for safety."
+  },
+  {
+    question: "Which PPE is mandatory for ground staff on the ramp?",
+    options: [
+      "Reflective vest, safety shoes, and hearing protection",
+      "Sunglasses and casual shoes",
+      "Helmet only",
+      "Gloves only"
+    ],
+    correct: 0,
+    explanation: "Ramp PPE includes reflective vest, safety shoes, ear protection, and goggles when required."
+  },
+ {
+  question: "Used mask and gloves should be disposed of where?",
+  options: [
+    "FOD bin",
+    "Biohazard bin",
+    "Recycling bin",
+    "Trash bin"
+  ],
+  correct: 1,
+  explanation: "Used PPE like masks and gloves must be disposed of in a biohazard bin to prevent contamination and follow safety protocols."
+},
+  {
+    question: "When is wing walking required?",
+    options: [
+      "When aircraft is on runway",
+      "When aircraft is on taxiway",
+      "When aircraft is about to enter designated bay",
+      "Only during DGCA Audit"
+    ],
+    correct: 2,
+    explanation: "Wing walking ensures A/C do not hit her wingtips."
+  },
+  {
+    question: "Where should vehicles never pass during fueling operations?",
+    options: [
+      "Behind fueling vehicle",
+      "In front of cockpit",
+      "Over fuel hoses",
+      "On pushback path"
+    ],
+    correct: 2,
+    explanation: "Vehicles must not cross over fuel hoses, as it can damage equipment and cause leaks."
+  },
+  {
+  question: "Is it acceptable to park equipment or vehicles in front of a fuel bowser if it’s only for a short time?",
+  options: [
+    "Yes, if someone stays with the vehicle",
+    "Only during night shift operations",
+    "No, it must always be kept clear",
+    "Yes, if the handbrake is applied"
+  ],
+  correct: 2,
+  explanation: "The area in front of a fuel bowser must always remain clear to allow emergency access and avoid obstruction during fueling operations—regardless of the duration."
+},
+  {
+    question: "When working close to aircraft engines, workers must wear:",
+    options: [
+      "Noise-cancelling headphones",
+      "Ear plugs",
+      "Sunglasses",
+      "Both A and B"
+    ],
+    correct: 3,
+    explanation: "Hearing protection is compulsory due to high decibel levels from running engines or APU."
+  },
+  {
+    question: "Why should safety cones be placed around fueling points?",
+    options: [
+      "For decoration only",
+      "To prevent unauthorized movement of people/vehicles into fueling zone",
+      "To protect hoses from sun",
+      "As parking aids"
+    ],
+    correct: 1,
+    explanation: "Safety cones mark fueling zones, protecting against accidental entry."
+  },
+  {
+    question: "When transporting tools and equipment on apron, they should always be:",
+    options: [
+      "Openly placed in truck bed",
+      "Secured properly to prevent FOD",
+      "Carried by hand",
+      "Left at random locations"
+    ],
+    correct: 1,
+    explanation: "All unattended or loose equipment on apron can turn into FOD, causing major hazards."
+  },
+  {
+    question: "What should be done before operating any GSE near an aircraft?",
+    options: [
+      "Check fluids only",
+      "Check brakes, condition, fuel, and verify clearance",
+      "Wait for pilot call",
+      "Skip checks if in a hurry"
+    ],
+    correct: 1,
+    explanation: "Pre-use checks guarantee safe operation and minimize breakdown near aircraft."
+  },
+  {
+    question: "Who is responsible for ensuring proper PPE usage on ramp?",
+    options: [
+      "Only employees",
+      "Supervisors only",
+      "Both employees and supervisors",
+      "Only airline pilots"
+    ],
+    correct: 2,
+    explanation: "Both staff and supervisors are equally responsible for PPE compliance."
+  },
+  {
+    question: "During fueling, which items must remain switched OFF?",
+    options: [
+      "Engines and mobile phones",
+      "Apron lights",
+      "Chocks",
+      "Wing walkers"
+    ],
+    correct: 0,
+    explanation: "Engines and mobile phones are ignition hazards and must remain OFF during fueling."
+  },
+  {
+    question: "Which line indicates aircraft holding position near a runway?",
+    options: [
+      "Double yellow continuous with dashed yellow",
+      "Blue strip",
+      "Red stop bar",
+      "White solid line"
+    ],
+    correct: 0,
+    explanation: "A holding position is marked with two solid and two dashed yellow bars across taxiway."
+  },
+  {
+    question: "Which apron marking color indicates 'no entry' area for vehicles?",
+    options: [
+      "Red",
+      "Black",
+      "White",
+      "Green"
+    ],
+    correct: 0,
+    explanation: "Red zones indicate strictly prohibited or safety-risk areas."
+  },
+  {
+    question: "Who must verify clearance during wing walking operations?",
+    options: [
+      "Only supervisor",
+      "The wing walker(s)",
+      "The pilot in cockpit",
+      "Air traffic control"
+    ],
+    correct: 1,
+    explanation: "Wing walkers ensure ground vehicles maintain safe clearance near wings."
+  },
+  {
+    question: "How should biohazard PPE waste be discarded after ramp operations?",
+    options: [
+      "Dumped in general garbage",
+      "Placed in yellow biohazard bins",
+      "Burned immediately",
+      "Left on ramp"
+    ],
+    correct: 1,
+    explanation: "Biohazard PPE must be placed carefully in yellow-coded waste bins."
+  },
+  {
+    question: "Why must apron speed limits be strictly observed?",
+    options: [
+      "To save time",
+      "To avoid surveillance cameras",
+      "To minimize accident risks near aircraft and pedestrians",
+      "To make supervisors happy"
+    ],
+    correct: 2,
+    explanation: "Speeding is a major safety hazard and is strictly prohibited in apron/ramp areas."
+  },
+  {
+    question: "When should a ground vehicle stop immediately on taxiway?",
+    options: [
+      "When approaching runway holding point",
+      "At designated apron crossing",
+      "On seeing stop point marking",
+      "All of the above"
+    ],
+    correct: 3,
+    explanation: "Stopping is mandated at all such designated markings to prevent incident with active aircraft."
+  },
+  {
+    question: "Why is wing walking necessary in congested apron areas?",
+    options: [
+      "For exercise",
+      "To guide vehicle safely without striking aircraft surfaces",
+      "For decoration",
+      "Because rules require it but not needed"
+    ],
+    correct: 1,
+    explanation: "Wing walkers physically guide vehicles around tight clearance zones near aircraft."
+  }
+];
+
+
+
+
+let currentQuestion = 0;
+    let score = 0;
+    let timer;
+    let timeLeft = 20;
+    let soundOn = true;
+    const userAnswers = [];
+    const allResults = [];
+    const quizContainer = document.getElementById("quiz-container");
+    const scoreContainer = document.getElementById("score-container");
+    const progressBar = document.getElementById("progress-bar");
+    const questionCounter = document.getElementById("question-counter");
+    const alertBox = document.getElementById("alert");
+    const startButton = document.getElementById("start-button");
+    const correctSound = document.getElementById("correct-sound");
+    const wrongSound = document.getElementById("wrong-sound");
+
+    function startQuiz() {
+      currentQuestion = 0;
+      score = 0;
+      userAnswers.length = 0;
+      startButton.style.display = "none";
+      scoreContainer.innerHTML = "";
+      showQuestion();
+    }
+    function showQuestion() {
+      clearInterval(timer);
+      timeLeft = 20;
+      updateTimer();
+      const questionData = quizData[currentQuestion];
+      quizContainer.innerHTML = `
+        <div class="card">
+          <div class="timer" id="timer">Time left: ${timeLeft}s</div>
+          <h2>${questionData.question}</h2>
+          <div class="options">
+            ${questionData.options.map((opt, i) =>
+              `<label><input type="radio" name="answer" value="${i}"> ${opt}</label>`
+            ).join("")}
+          </div>
+          <button class="btn" onclick="submitAnswer()">Submit</button>
+        </div>
+      `;
+      questionCounter.textContent = `Question ${currentQuestion + 1} of ${quizData.length}`;
+      progressBar.style.width = `${((currentQuestion) / quizData.length) * 100}%`;
+      timer = setInterval(() => {
+        timeLeft--;
+        updateTimer();
+        if (timeLeft <= 5) alertBox.style.display = "block";
+        if (timeLeft === 0) submitAnswer();
+      }, 1000);
+    }
+    function updateTimer() {
+      const timerEl = document.getElementById("timer");
+      if (!timerEl) return;
+      timerEl.textContent = `Time left: ${timeLeft}s`;
+      timerEl.className = "timer " + (timeLeft <= 5 ? "red" : "green");
+    }
+    function submitAnswer() {
+      clearInterval(timer);
+      alertBox.style.display = "none";
+      const selected = document.querySelector('input[name="answer"]:checked');
+      const questionData = quizData[currentQuestion];
+      let isCorrect = false;
+      if (selected) {
+        const answer = parseInt(selected.value);
+        userAnswers[currentQuestion] = answer;
+        if (answer === questionData.correct) {
+          score++;
+          isCorrect = true;
+        }
+      } else {
+        userAnswers[currentQuestion] = null;
+      }
+      const options = document.querySelectorAll(".options label");
+      options.forEach((opt, i) => {
+        if (i === questionData.correct) opt.classList.add("correct");
+        else if (selected && i === parseInt(selected.value)) opt.classList.add("wrong");
+      });
+      setTimeout(() => {
+        if (isCorrect) {
+          if (soundOn) correctSound.play();
+          confetti({ particleCount: 80, spread: 70, origin: { y: 0.6 } });
+        } else {
+          if (soundOn) wrongSound.play();
+        }
+      }, 300);
+      quizContainer.innerHTML += `
+        <div class="explanation"><strong>Explanation:</strong> ${questionData.explanation}</div>
+        <button class="btn" onclick="nextQuestion()">Next</button>
+      `;
+      document.querySelectorAll('input[name="answer"]').forEach(i => i.disabled = true);
+      document.querySelector('.btn').disabled = true;
+    }
+    function nextQuestion() {
+      currentQuestion++;
+      if (currentQuestion < quizData.length) {
+        showQuestion();
+      } else {
+        showScore();
+      }
+    }
+       function showScore() {
+      progressBar.style.width = "100%";
+      quizContainer.innerHTML = "";
+      scoreContainer.innerHTML = `
+        <div class="highlight-latest-result">You scored ${score} out of ${quizData.length}!</div>
+        <button class="btn" onclick="startQuiz()">Restart Quiz</button>
+        <button class="btn" onclick="exportPDF()">Export Results</button>
+        <button class="btn" onclick="showReview()">Review Mistakes</button>
+      `;
+      allResults.push({ date: new Date().toLocaleString(), score: `${score}/${quizData.length}` });
+      localStorage.setItem("quizResults", JSON.stringify(allResults));
+      startButton.style.display = "inline-block";
+    }
+
+    function showReview() {
+      quizContainer.innerHTML = "<h2>Review Your Mistakes</h2>";
+      let mistakesFound = false;
+
+      quizData.forEach((q, i) => {
+        const userAnswer = userAnswers[i];
+        if (userAnswer !== q.correct) {
+          mistakesFound = true;
+          quizContainer.innerHTML += `
+            <div class="card">
+              <h3>${q.question}</h3>
+              <p><strong>Your Answer:</strong> ${userAnswer !== null ? q.options[userAnswer] : "No answer selected"}</p>
+              <p><strong>Correct Answer:</strong> ${q.options[q.correct]}</p>
+              <p><strong>Explanation:</strong> ${q.explanation}</p>
+            </div>
+          `;
+        }
+      });
+
+      if (!mistakesFound) {
+        quizContainer.innerHTML += `<p>🎉 Excellent! You answered all questions correctly.</p>`;
+      }
+    }
+
+    function toggleSound() {
+      soundOn = !soundOn;
+      document.getElementById("sound-icon").textContent = soundOn ? "🔊" : "🔇";
+      document.getElementById("sound-text").textContent = soundOn ? "Sound ON" : "Sound OFF";
+    }
+    function exportPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      doc.setFontSize(16);
+      doc.text("Quiz Results", 10, 10);
+      let y = 20;
+      allResults.forEach((res, i) => {
+        doc.text(`${i + 1}. ${res.date} - Score: ${res.score}`, 10, y);
+        y += 10;
+      });
+      doc.save("quiz_results.pdf");
+    }
+    window.onload = () => {
+      const saved = localStorage.getItem("quizResults");
+      if (saved) allResults.push(...JSON.parse(saved));
+    };
+    startButton.addEventListener("click", startQuiz);
+  </script>
+</body>
+</html>

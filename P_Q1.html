@@ -1,0 +1,592 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap">
+
+  <meta charset="UTF-8">
+  <title>Ramp Safety Quiz</title>
+  <style>
+    body {
+  font-family: 'Inter', Arial, sans-serif;
+  background: linear-gradient(120deg, #e3f6f5 0%, #ffe8d6 100%);
+  color: #23395d;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  width: 96%;
+  max-width: 500px;
+  margin: 40px auto 0 auto;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(34,57,93,0.15);
+  padding: 32px 24px;
+  position: relative;
+}
+
+h1 {
+  font-size: 2.2em;
+  color: #207bfa;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+
+#progress-container {
+  width: 100%;
+  background: #e9ecef;
+  height: 12px;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+#progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #207bfa 0%, #43cea2 100%);
+  transition: width 0.4s ease;
+}
+
+#question-counter {
+  font-size: 1.1em;
+  font-weight: 600;
+  color: #525252;
+  margin: 14px 0 18px 0;
+}
+
+.card {
+  background: #f9f9fb;
+  padding: 28px 24px;
+  border-radius: 16px;
+  box-shadow: 0 2px 14px rgba(34,57,93,0.07);
+  text-align: left;
+}
+
+.options label {
+  display: block;
+  background: #f5fafd;
+  font-size: 1em;
+  margin: 10px 0;
+  cursor: pointer;
+  padding: 11px 16px;
+  border-radius: 8px;
+  border: 2px solid #e3f6f5;
+  transition: background 0.3s, border-color 0.3s;
+}
+
+.options label:hover, .options input:focus + label {
+  background: #e3f6f5;
+  border-color: #207bfa;
+}
+
+.options input {
+  margin-right: 11px;
+}
+
+.btn {
+  display: inline-block;
+  margin: 18px 10px 0 0;
+  padding: 12px 30px;
+  font-size: 1.15em;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #207bfa 0%, #43cea2 100%);
+  color: #fff;
+  box-shadow: 0 3px 10px rgba(34,57,93,0.08);
+  transition: background 0.25s;
+}
+
+.btn:hover { background: linear-gradient(90deg, #43cea2 0%, #207bfa 100%); }
+
+.correct { background: #e6ffed !important; border-color: #43cea2 !important; }
+.wrong { background: #ffebef !important; border-color: #fa205c !important; }
+
+.timer {
+  font-weight: bold;
+  margin-bottom: 15px;
+  font-size: 1.08em;
+  color: #207bfa;
+}
+
+.timer.red { color: #fa205c; }
+.timer.green { color: #43cea2; }
+
+.explanation {
+  margin-top: 18px;
+  padding: 12px 16px;
+  background: #f6f3e9;
+  border-left: 5px solid #43cea2;
+  border-radius: 0 8px 8px 0;
+  font-size: 0.99em;
+  color: #525252;
+}
+
+#alert {
+  display: none;
+  font-size: 1.07em;
+  color: #fa205c;
+  letter-spacing: 0.5px;
+  margin: 6px 0;
+  font-weight: 700;
+}
+
+#sound-toggle {
+  margin: 18px 0;
+  cursor: pointer;
+  font-size: 1em;
+  color: #43cea2;
+  font-weight: 600;
+}
+
+#score-container {
+  margin-top: 22px;
+}
+
+.highlight-latest-result {
+  font-size: 1.33em;
+  font-weight: 800;
+  letter-spacing: 1px;
+  margin-bottom: 18px;
+  color: #207bfa;
+}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Ramp Safety Quiz</h1>
+    <div id="sound-toggle" onclick="toggleSound()">
+      <span id="sound-icon">🔊</span> <span id="sound-text">Sound ON</span>
+    </div>
+    <div id="progress-container"><div id="progress-bar"></div></div>
+    <div id="question-counter"></div>
+    <div id="alert">⏰ Hurry! Time is almost up!</div>
+    <div id="quiz-container"></div>
+    <div id="score-container"></div>
+    <button id="start-button" class="btn">Start Quiz</button>
+  </div>
+  <audio id="correct-sound" src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg"></audio>
+
+  <audio id="wrong-sound" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"></audio>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script>
+    const quizData = [
+      {
+        question: "When should hearing protection be worn on the ramp?",
+        options: [
+          "Only during engine start-up",
+          "Whenever aircraft are operating",
+          "Only near baggage handling areas",
+          "Only at night"
+        ],
+        correct: 1,
+        explanation: "Hearing protection must always be worn when aircraft are operating due to high noise levels."
+      },
+      {
+        question: "What should you do if you see a fuel spill on the ramp?",
+        options: [
+          "Ignore it, it will evaporate",
+          "Inform the supervisor immediately",
+          "Cover it with sand quietly",
+          "Continue working unless it spreads"
+        ],
+        correct: 1,
+        explanation: "Fuel spills must be reported immediately to prevent fire hazards."
+      },
+      {
+        question: "What is the minimum clearance required when walking behind an aircraft engine at powered on?",
+        options: [
+          "15 meters",
+          "30 meters",
+          "45 meters",
+          "60 meters"
+        ],
+        correct: 3,
+        explanation: "A minimum of 15 meters clearance is required behind engines at idle due to jet blast hazards."
+      },
+      {
+        question: "Which color vests are usually worn for visibility on the ramp?",
+        options: [
+          "Blue",
+          "Red",
+          "Company provied Visibility Jacket",
+          "Black"
+        ],
+        correct: 2,
+        explanation: "Yellow or orange reflective vests are worn for high visibility to moving vehicles and aircraft."
+      },
+      {
+        question: "If you see unauthorized personnel on the ramp, you should:",
+        options: [
+          "Approach them directly and escort them out",
+          "Ignore them, it's not your job",
+          "Report to security/supervisor immediately",
+          "Ask other staff to check"
+        ],
+        correct: 2,
+        explanation: "Security breaches should be reported to supervisors or security for everyone's safety."
+      },
+      {
+        question: "The best way to avoid slips and falls on the ramp is to:",
+        options: [
+          "Walk quickly to avoid delays",
+          "Wear rubber-soled shoes and watch for hazards",
+          "Ignore wet spots",
+          "Only use designated roadways"
+        ],
+        correct: 1,
+        explanation: "Rubber-soled shoes and constant awareness reduce the risk of slipping on wet or oily spots."
+      },
+      {
+        question: "If you hear a loud warning horn from an aircraft:",
+        options: [
+          "Run towards it",
+          "Evacuate the ramp area calmly",
+          "Call your friends to watch",
+          "Put on headphones"
+        ],
+        correct: 1,
+        explanation: "A warning horn may indicate emergency or imminent aircraft movement; calmly evacuate the area."
+      },
+      {
+        question: "What does FOD stand for?",
+        options: [
+          "Fuel on Duty",
+          "Flights on Distance",
+          "Foreign Object Debris",
+          "Face on Dust"
+        ],
+        correct: 2,
+        explanation: "FOD stands for Foreign Object Debris, which refers to loose objects that could damage aircraft."
+      },
+      {
+        question: "What is the full form of PPE?",
+        options: [
+          "Personal Protective Equipment",
+          "People Praising Each Other",
+          "Personal Protecting Others",
+          "Praise Protest Ends"
+        ],
+        correct: 0,
+        explanation: "PPE means Personal Protective Equipment, required for worker safety."
+      },
+      {
+        question: "Where are Anti Collision lights located?",
+        options: [
+          "Front and Back",
+          "Both wings’ tips",
+          "Belly and top of aircraft",
+          "Both the sides of the aircraft"
+        ],
+        correct: 2,
+        explanation: "The anti-collision lights are on the belly and top of aircraft, alerting ground crew."
+      },
+      {
+        question: "Who is an aircraft Marshaller?",
+        options: [
+          "Assistant for passengers at airport",
+          "Person assisting airline crew",
+          "Ground staff guiding pilots with signals",
+          "Staff coordinated with the captain"
+        ],
+        correct: 2,
+        explanation: "Aircraft Marshaller guides aircraft via visual hand signals for safe ground movement."
+      },
+      {
+        question: "Ramp Driver need not have to wear the PPE while walking in the apron area.",
+        options: [
+          "TRUE",
+          "FALSE",
+          "Not Sure",
+          "Sometimes"
+        ],
+        correct: 1,
+        explanation: "PPE is always required; ramp drivers must use the safety gear while in the apron area."
+      },
+      {
+        question: "Ramp staff can smoke and drive in the ramp area.",
+        options: [
+          "TRUE",
+          "FALSE",
+          "If nobody is looking",
+          "Only at night"
+        ],
+        correct: 1,
+        explanation: "Strict NO: Smoking is prohibited and dangerous in ramp areas."
+      },
+      {
+        question: "Ramp equipment can be parked anywhere without parking brakes ON.",
+        options: [
+          "TRUE",
+          "FALSE",
+          "Only if engine is off",
+          "If supervised"
+        ],
+        correct: 1,
+        explanation: "All ramp equipment must have parking brakes ON when parked to prevent accidents."
+      },
+      {
+        question: "All staff coming to the Ramp/Apron area are supposed to wear the Ramp Jacket.",
+        options: [
+          "TRUE",
+          "FALSE",
+          "Only night shift",
+          "If working near aircraft"
+        ],
+        correct: 0,
+        explanation: "Ramp jackets are vital for visibility and safety for ALL staff on the ramp."
+      },
+      {
+        question: "Who has the right of way on the ramp?",
+        options: [
+          "Passengers",
+          "Airport staff",
+          "Airport vehicles",
+          "Aircraft"
+        ],
+        correct: 3,
+        explanation: "Aircraft always have the right of way; vehicles and staff must yield."
+      },
+      {
+        question: "How many times FOD check is done at bay?",
+        options: [
+          "Two",
+          "Three",
+          "One",
+          "Only on weekends"
+        ],
+        correct: 1,
+        explanation: "FOD check to be done 3 times as failure to do so may cause safety hazards and FOD risks."
+      },
+      {
+        question: "What's the meaning when the aircraft’s anti-collision light is ON?",
+        options: [
+          "Approach the aircraft",
+          "Start loading",
+          "Stand clear of the aircraft",
+          "Take photos"
+        ],
+        correct: 2,
+        explanation: "Anti-collision light ON means aircraft is active—stand clear."
+      },
+      {
+        question: "What do you call the wind force at the back of the aircraft?",
+        options: [
+          "Jet blast",
+          "Jet engine",
+          "Jet tornado",
+          "Jet wind"
+        ],
+        correct: 0,
+        explanation: "Jet blast is the powerful air stream generated by aircraft engines."
+      },
+      {
+        question: "Which safety measure is essential to prevent head injuries during emergency evacuation?",
+        options: [
+          "Wear a hard hat during the drill",
+          "Carry heavy objects while evacuating",
+          "Use hands to cover your head",
+          "Run without looking back"
+        ],
+        correct: 2,
+        explanation: "Hands should cover the head during evacuation to protect from impact."
+      },
+      {
+        question: "Why is it crucial for travelers to stay calm during an airport emergency?",
+        options: [
+          "To cause panic among passengers",
+          "To entertain others",
+          "To reassure and follow instructions",
+          "To argue"
+        ],
+        correct: 2,
+        explanation: "Calmness helps everyone safely respond and follow instructions."
+      },
+      {
+        question: "Why do airport personnel conduct emergency evacuation drills?",
+        options: [
+          "Practice coordination and response",
+          "To simulate panic",
+          "Increase airport revenue",
+          "All of the above"
+        ],
+        correct: 0,
+        explanation: "Drills ensure staff readiness and effective coordination in emergencies."
+      },
+      {
+        question: "What safety measure is implemented to prevent fire hazards during aircraft refueling?",
+        options: [
+          "Using candles for illumination",
+          "Regular aircraft inspection",
+          "Strict refueling protocols",
+          "Ignoring fuel leaks"
+        ],
+        correct: 2,
+        explanation: "Strict refueling protocols are followed to prevent fires."
+      },
+      {
+        question: "What should passengers do if they encounter a medical emergency at the airport?",
+        options: [
+          "Ignore it",
+          "Attempt to help without training",
+          "Notify airport staff immediately",
+          "Take pictures"
+        ],
+        correct: 2,
+        explanation: "Notify trained staff immediately for medical emergencies."
+      },
+      {
+        question: "What are Foreign Object Debris (FOD) control programs designed to prevent?",
+        options: [
+          "Building damage",
+          "Object theft",
+          "Aircraft damage from loose objects",
+          "Noise pollution"
+        ],
+        correct: 2,
+        explanation: "FOD control prevents loose objects from damaging aircraft."
+      }
+    ];
+    let currentQuestion = 0;
+    let score = 0;
+    let timer;
+    let timeLeft = 20;
+    let soundOn = true;
+    const userAnswers = [];
+    const allResults = [];
+    const quizContainer = document.getElementById("quiz-container");
+    const scoreContainer = document.getElementById("score-container");
+    const progressBar = document.getElementById("progress-bar");
+    const questionCounter = document.getElementById("question-counter");
+    const alertBox = document.getElementById("alert");
+    const startButton = document.getElementById("start-button");
+    const correctSound = document.getElementById("correct-sound");
+    const wrongSound = document.getElementById("wrong-sound");
+
+    function startQuiz() {
+      currentQuestion = 0;
+      score = 0;
+      userAnswers.length = 0;
+      startButton.style.display = "none";
+      scoreContainer.innerHTML = "";
+      showQuestion();
+    }
+    function showQuestion() {
+      clearInterval(timer);
+      timeLeft = 20;
+      updateTimer();
+      const questionData = quizData[currentQuestion];
+      quizContainer.innerHTML = `
+        <div class="card">
+          <div class="timer" id="timer">Time left: ${timeLeft}s</div>
+          <h2>${questionData.question}</h2>
+          <div class="options">
+            ${questionData.options.map((opt, i) =>
+              `<label><input type="radio" name="answer" value="${i}"> ${opt}</label>`
+            ).join("")}
+          </div>
+          <button class="btn" onclick="submitAnswer()">Submit</button>
+        </div>
+      `;
+      questionCounter.textContent = `Question ${currentQuestion + 1} of ${quizData.length}`;
+      progressBar.style.width = `${((currentQuestion) / quizData.length) * 100}%`;
+      timer = setInterval(() => {
+        timeLeft--;
+        updateTimer();
+        if (timeLeft <= 5) alertBox.style.display = "block";
+        if (timeLeft === 0) submitAnswer();
+      }, 1000);
+    }
+    function updateTimer() {
+      const timerEl = document.getElementById("timer");
+      if (!timerEl) return;
+      timerEl.textContent = `Time left: ${timeLeft}s`;
+      timerEl.className = "timer " + (timeLeft <= 5 ? "red" : "green");
+    }
+    function submitAnswer() {
+      clearInterval(timer);
+      alertBox.style.display = "none";
+      const selected = document.querySelector('input[name="answer"]:checked');
+      const questionData = quizData[currentQuestion];
+      let isCorrect = false;
+      if (selected) {
+        const answer = parseInt(selected.value);
+        userAnswers[currentQuestion] = answer;
+        if (answer === questionData.correct) {
+          score++;
+          isCorrect = true;
+        }
+      } else {
+        userAnswers[currentQuestion] = null;
+      }
+      const options = document.querySelectorAll(".options label");
+      options.forEach((opt, i) => {
+        if (i === questionData.correct) opt.classList.add("correct");
+        else if (selected && i === parseInt(selected.value)) opt.classList.add("wrong");
+      });
+      setTimeout(() => {
+        if (isCorrect) {
+          if (soundOn) correctSound.play();
+          confetti({ particleCount: 80, spread: 70, origin: { y: 0.6 } });
+        } else {
+          if (soundOn) wrongSound.play();
+        }
+      }, 300);
+      quizContainer.innerHTML += `
+        <div class="explanation"><strong>Explanation:</strong> ${questionData.explanation}</div>
+        <button class="btn" onclick="nextQuestion()">Next</button>
+      `;
+      document.querySelectorAll('input[name="answer"]').forEach(i => i.disabled = true);
+      document.querySelector('.btn').disabled = true;
+    }
+    function nextQuestion() {
+      currentQuestion++;
+      if (currentQuestion < quizData.length) {
+        showQuestion();
+      } else {
+        showScore();
+      }
+    }
+    function showScore() {
+      progressBar.style.width = "100%";
+      quizContainer.innerHTML = "";
+      scoreContainer.innerHTML = `
+        <div class="highlight-latest-result">You scored ${score} out of ${quizData.length}!</div>
+        <button class="btn" onclick="startQuiz()">Restart Quiz</button>
+        <button class="btn" onclick="exportPDF()">Export Results</button>
+      `;
+      allResults.push({ date: new Date().toLocaleString(), score: `${score}/${quizData.length}` });
+      localStorage.setItem("quizResults", JSON.stringify(allResults));
+      startButton.style.display = "inline-block";
+    }
+    function toggleSound() {
+      soundOn = !soundOn;
+      document.getElementById("sound-icon").textContent = soundOn ? "🔊" : "🔇";
+      document.getElementById("sound-text").textContent = soundOn ? "Sound ON" : "Sound OFF";
+    }
+    function exportPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      doc.setFontSize(16);
+      doc.text("Quiz Results", 10, 10);
+      let y = 20;
+      allResults.forEach((res, i) => {
+        doc.text(`${i + 1}. ${res.date} - Score: ${res.score}`, 10, y);
+        y += 10;
+      });
+      doc.save("quiz_results.pdf");
+    }
+    window.onload = () => {
+      const saved = localStorage.getItem("quizResults");
+      if (saved) allResults.push(...JSON.parse(saved));
+    };
+    startButton.addEventListener("click", startQuiz);
+  </script>
+</body>
+</html>
