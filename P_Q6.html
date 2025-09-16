@@ -176,6 +176,294 @@ h1 {
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script>
+  const quizData = [
+  {
+    question: "What is the SSR code for a stretcher passenger?",
+    options: [
+      "WCHS",
+      "STCR",
+      "WCHR",
+      "MEDA"
+    ],
+    correct: 1,
+    explanation: "The IATA SSR code 'STCR' is used for a passenger traveling on a stretcher."
+  },
+  {
+    question: "Where is the ACB panel located in ATR aircraft?",
+    options: [
+      "Top of the tail and bottom of the fuselage",
+      "Behind captain’s seat",
+      "In aft galley",
+      "Cargo compartment"
+    ],
+    correct: 0,
+    explanation: "On ATR, the ACB is loacted at the  Top of the tail ( Vertical Stabilizer)  and bottom of the fuselage."
+  },
+  {
+    question: "Should staff approach the aircraft when it is in hotel mode?",
+    options: [
+      "Yes, from front only",
+      "Yes, only from left-hand side",
+      "No, it is unsafe",
+      "Yes, from any side"
+    ],
+    correct: 2,
+    explanation: "Staff should not approach the aircraft during hotel mode because the engine no: 2 remains active and poses hazards."
+  },
+  {
+    question: "How many holds are there in Airbus A320?",
+    options: [
+      "2+1 bulk hold",
+      "1+1 bulk hold",
+      "3 compartments",
+      "Forward hold only"
+    ],
+    correct: 0,
+    explanation: "Airbus A320 typically has 2 main cargo holds (forward and aft) plus a bulk hold."
+  },
+  {
+    question: "Which aircraft commonly uses 3-way disembarkation for passengers?",
+    options: [
+      "ATR72",
+      "Airbus A319",
+      "Airbus A321",
+      "Boeing 737"
+    ],
+    correct: 2,
+    explanation: "Airbus A321, due to larger capacity, sometimes uses 3-way disembarkation to save turnaround time."
+  },
+  {
+    question: "What is 'hotel mode' in ATR aircraft?",
+    options: [
+      "Engine running for standby taxiing",
+      "Running an engine for cabin A/C and electrical power while parked",
+      "Hotel crew accommodation system",
+      "Passenger seating configuration mode"
+    ],
+    correct: 1,
+    explanation: "Hotel mode allows the ATR to use the right-hand engine (No.2) to provide air conditioning and electrical power when APU is unavailable."
+  },
+  {
+    question: "What is a 'taxiway' in airport terminology?",
+    options: [
+      "Area for parking vehicles",
+      "Path connecting runways and aprons",
+      "Passenger boarding bridge",
+      "Emergency escape route"
+    ],
+    correct: 1,
+    explanation: "A taxiway connects runways with aprons, hangars, and terminals, guiding aircraft ground movement."
+  },
+  {
+    question: "Where is the passenger doors located on ATR aircraft ?",
+    options: [
+      " FWD Port side",
+      "AFT Port Side",
+      "FWD Starboard Side",
+      "AFT Starboard Side"
+    ],
+    correct: 1,
+    explanation: "ATR has passenger door located at rear side of A/C, port side."
+  },
+  {
+    question: "When is hotel mode switched off during ATR operations?",
+    options: [
+      "During fueling",
+      "Before de-boarding and ground handling activities",
+      "Only after pushback",
+      "After crew arrival on board"
+    ],
+    correct: 1,
+    explanation: "Hotel mode must be switched off before de-boarding or servicing to avoid hazards from Jet blast."
+  },
+  {
+    question: "How many cargo compartments are present in ATR72 aircraft?",
+    options: [
+      "1",
+      "2",
+      "3",
+      "4"
+    ],
+    correct: 1,
+    explanation: "ATR72 has two cargo holds: forward and aft compartments."
+  },
+  {
+    question: "What is the SSR code for a cabin wheelchair passenger?",
+    options: [
+      "WCHC",
+      "WCHS",
+      "WCHR",
+      "WCBD"
+    ],
+    correct: 0,
+    explanation: "WCHC indicates a customer requiring a wheelchair through the cabin (cannot walk at all)."
+  },
+  {
+    question: "Which door is used for boarding and deboarding in ATR?",
+    options: [
+      "Passenger door at rear left",
+      "Forward service door",
+      "Overwing exit",
+      "R2 door"
+    ],
+    correct: 0,
+    explanation: "In ATR, boarding and deboarding is primarily through the rear left cabin entry door with built-in stairs. However, we don't use the stairs in domestic operations."
+  },
+  {
+    question: "Where is the ACB  location in Airbus aircraft?",
+    options: [
+      "Side consoles in cockpit",
+      "Overhead panel",
+      "Behind the cockpit on rear wall",
+      "Top and bottom of fuselage"
+    ],
+    correct: 3,
+    explanation: "In Airbus  family, ACB is loacted on top and bottom of fuselage."
+  },
+  {
+    question: "Which engine in ATR runs during hotel mode?",
+    options: [
+      "Engine No.1 (Left)",
+      "Engine No.2 (Right)",
+      "Both Engines",
+      "APU"
+    ],
+    correct: 1,
+    explanation: "During hotel mode, ATR operates only Engine No.2 (right engine), with its propeller feathered to prevent thrust."
+  },
+  {
+    question: "What is the 'manoeuvring area' at an airport?",
+    options: [
+      "Area for aircraft parking",
+      "Area used for takeoff, landing, and taxiing (excluding aprons)",
+      "Passenger terminal area",
+      "Cargo loading zone"
+    ],
+    correct: 1,
+    explanation: "Manoeuvring area includes runways and taxiways used for flight movements, excluding aprons."
+  },
+  {
+    question: "Which document conveys details of special load to the Pilot-in-Command (PIC)?",
+    options: [
+      "Passenger Manifest",
+      "NOTOC",
+      "Safety Check Report",
+      "Load Sheet"
+    ],
+    correct: 1,
+    explanation: "The Notification to Captain (NOTOC) informs PIC about dangerous or special loads being carried."
+  },
+  {
+    question: "What are the door names in Airbus A320?",
+    options: [
+      "Front, Middle, Rear",
+      "L1, L2, L3, R1, R2, R3",
+      "L1, L2, R1, R2",
+      "Crew door and Cargo door"
+    ],
+    correct: 2,
+    explanation: "Airbus A320/321 doors are named as L1, L2, R1, and R2 (with A320 having additional emergency exits)."
+  },
+  {
+    question: "How many service partners are required to board a WCHC customer through L1 door using passenger ramp?",
+    options: [
+      "1",
+      "2",
+      "3",
+      "4"
+    ],
+    correct: 1,
+    explanation: "For full wheelchair-bound passengers (WCHC), at least 2 staff are required to assist boarding safely through L1 ramp."
+  },
+  {
+    question: "Why is hotel mode required in ATR aircraft?",
+    options: [
+      "For hotel accommodation",
+      "To reduce fuel usage at gates",
+      "To provide electrical and air conditioning power without APU",
+      "To warm-up engines faster"
+    ],
+    correct: 2,
+    explanation: "Since ATR aircraft do not have an APU, hotel mode provides essential AC and electrical power while on ground."
+  },
+  {
+    question: "Which door is generally used for passenger boarding in Airbus A320/321?",
+    options: [
+      "L1, L4",
+      "L1,L3",
+      "R1",
+      "Cargo hold door"
+    ],
+    correct: 0,
+    explanation: "The L1 (in A 320) and l4 (in A 321)  door is most commonly used for boarding and deboarding Airbus A320/321 customers."
+  },
+  {
+    question: "What is the SSR code for a ramp wheelchair passenger?",
+    options: [
+      "WCHC",
+      "WCHR",
+      "WCHS",
+      "WCMP"
+    ],
+    correct: 1,
+    explanation: "WCHR indicates a passenger who requires wheelchair for ramp access but can ascend steps and walk short distances."
+  },
+  {
+    question: "What is 3-way disembarkation?",
+    options: [
+      "Passengers exit via two passenger doors and the service door simultaneously",
+      "Using overwing exits for passengers",
+      "Disembarking through three buses",
+      "Only applicable for regional airports"
+    ],
+    correct: 0,
+    explanation: "3-way disembarkation involves using both L1, L2, and R2 doors to speed up passenger offloading, mostly in A321."
+  },
+  {
+    question: "What is the SSR code for a customers who do not have a confirmed wheelchair?",
+    options: [
+      "WCHR",
+      "WCHW",
+      "WCHC",
+      "STCR"
+    ],
+    correct: 1,
+    explanation: "WCHW refers to a customer who is on waitlist."
+  },
+  {
+    question: "Hotel mode is applicable for which type of aircraft?",
+    options: [
+      "Airbus A320",
+      "Airbus A321",
+      "ATR72",
+      "Boeing 737"
+    ],
+    correct: 2,
+    explanation: "Hotel mode is a unique feature of ATR aircraft, allowing one engine to provide both electrical power and bleed air while stationary."
+  },
+  {
+    question: "Where is the service door located on ATR72 aircraft?",
+    options: [
+      "Right-hand side, aft fuselage",
+      "Left-hand side, rear fuselage",
+      "Top fuselage near tail",
+      "Overwing panel"
+    ],
+    correct: 0,
+    explanation: "Service door on ATR is located on the right-hand side, aft area, used for catering, ground service, and baggage."
+  },
+  {
+    question: "What is the correct cargo loading sequence in ATR to avoid tail tipping risk?",
+    options: [
+      "Load aft cargo first, then forward cargo",
+      "Load forward cargo first, then aft cargo",
+      "Simultaneous forward and rear loading",
+      "Only bulk hold loaded"
+    ],
+    correct: 1,
+    explanation: "Forward cargo compartment is loaded first in ATR to maintain stability and avoid tail tipping risk."
+  }
+];
 
 
 
