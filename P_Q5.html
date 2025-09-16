@@ -176,6 +176,283 @@ h1 {
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script>
+  const quizData = [
+  {
+    question: "Engine No.1 is located on which side of the aircraft?",
+    options: [
+      "Right side",
+      "Left side",
+      "Tail section",
+      "Top of fuselage"
+    ],
+    correct: 1,
+    explanation: "Engine No.1 is always located on the captain’s left-hand side (port side) of the aircraft."
+  },
+  {
+    question: "When do passenger check-in counters usually close for domestic flights?",
+    options: [
+      "20 minutes before departure",
+      "30 minutes before departure",
+      "40 minutes before departure",
+      "60 minutes before departure"
+    ],
+    correct: 3,
+    explanation: "For domestic flights, counters typically close 60 minutes before departure for security and boarding procedures."
+  },
+  {
+    question: "Gate closure generally happens how many minutes before departure?",
+    options: [
+      "75 minutes",
+      "10 minutes",
+      "25 minutes",
+      "60 minutes"
+    ],
+    correct: 2,
+    explanation: "6E close the boarding gate 25 minutes before scheduled departure."
+  },
+  {
+    question: "What is the main purpose of using wheel chocks for an aircraft?",
+    options: [
+      "Stopping fuel leaks",
+      "Preventing accidental tire bursts",
+      "Restrict aircraft movement on ground",
+      "Prolonging tire life"
+    ],
+    correct: 2,
+    explanation: "Chocks restrict unintentional rolling or aircraft movement due to wind or uneven surface."
+  },
+  {
+    question: "In ATR aircraft, what indicator is used to detect the risk of tail tipping?",
+    options: [
+      "Tail support strut",
+      "Tail stand indicator",
+      "Cabin tilt sensor",
+      "Tail Prop"
+    ],
+    correct: 1,
+    explanation: "ATR uses a tail Prop device that warns if improper loading may cause tail tipping."
+  },
+  {
+    question: "What is used during wing walking operations in daytime?",
+    options: [
+      "Glow sticks",
+      "Illuminated batons",
+      "Hand signals only",
+      "Batons"
+    ],
+    correct: 3,
+    explanation: "During the day, brightly colored  batons are used to guide movements safely."
+  },
+  {
+    question: "Which device is used for wing walking during night operations?",
+    options: [
+      "Battery powered illuminator",
+      "Illuminating wands",
+      "Red flags",
+      "Glow jackets only"
+    ],
+    correct: 1,
+    explanation: "At night, illuminating wands ensure visibility and clear communication."
+  },
+  {
+    question: "In wing walking, what does a red illuminated wand indicate?",
+    options: [
+      "Clear to move",
+      "Stop immediately",
+      "Taxi slowly",
+      "Parking complete"
+    ],
+    correct: 1,
+    explanation: "Red wands are a direct signal to stop A/C movement immediately."
+  },
+  {
+    question: "In ramp operations, what does a green illuminated wand indicate?",
+    options: [
+      "Safety hazard ahead",
+      "Start/continue movement",
+      "Parking complete",
+      "Only for emergencies"
+    ],
+    correct: 1,
+    explanation: "Green indicates permission to proceed or continue safe movement."
+  },
+  {
+    question: "Assistive devices (like wheelchairs) are loaded in which compartment of Airbus aircraft?",
+    options: [
+      "Compartment 1 (forward hold)",
+      "Compartment 2 (aft hold)",
+      "Bulkhold compartment",
+      "Cockpit compartment"
+    ],
+    correct: 1,
+    explanation: "Wheelchairs and assistive devices are usually placed in the Compartment 1 (forward hold) for accessibility."
+  },
+  {
+    question: "How many seats are there in a typical Airbus A320?",
+    options: [
+      "180",
+      "220",
+      "150",
+      "200"
+    ],
+    correct: 0,
+    explanation: "The standard configuration of A320 aircraft is 180 or 186  seats."
+  },
+  {
+    question: "How many seats are there in a typical Airbus A321?",
+    options: [
+      "180",
+      "220",
+      "186",
+      "222"
+    ],
+    correct: 3,
+    explanation: "The Airbus A321 usually has around 222 or 232 seats depending on layout."
+  },
+  {
+    question: "How many passenger seats are there in an ATR 72 aircraft?",
+    options: [
+      "78",
+      "76",
+      "74",
+      "72"
+    ],
+    correct: 0,
+    explanation: "ATR 72 models have 78 passenger seats, making them efficient for regional flights."
+  },
+  {
+    question: "How many seating rows are typically present in an A320?",
+    options: [
+      "30",
+      "31",
+      "32",
+      "Both A and B"
+    ],
+    correct: 3,
+    explanation: "Depending on seating layout, an A320 has around 30 or 31 rows."
+  },
+  {
+    question: "How many rows does an ATR 72 generally have?",
+    options: [
+      "16 rows",
+      "18 rows",
+      "20 rows",
+      "22 rows"
+    ],
+    correct: 2,
+    explanation: "The ATR 72 typically has 20 rows for about 78 seats."
+  },
+  {
+    question: "How many lavatories are available on a typical Airbus A320 aircraft?",
+    options: [
+      "1",
+      "2",
+      "3",
+      "4"
+    ],
+    correct: 2,
+    explanation: "Most Airbus A320 aircraft are fitted with 3 lavatories (2 aft and 1 forward)."
+  },
+  {
+    question: "How many lavatories are available on an ATR 72 aircraft?",
+    options: [
+      "0",
+      "1",
+      "2",
+      "3"
+    ],
+    correct: 1,
+    explanation: "ATR 72 regional aircraft are equipped with a single lavatory at the rear."
+  },
+  {
+    question: "Why is a tail prop used during ATR ground operations?",
+    options: [
+      "To support engine",
+      "To indicate tail tipping during loading",
+      "To extend taxi stability",
+      "To reduce vibrations"
+    ],
+    correct: 1,
+    explanation: "The tail prop indicate ATR tail tipping while cargo and passengers are loaded."
+  },
+  {
+    question: "What is the purpose of  batons in wing walking?",
+    options: [
+      "To improve grip for handlers",
+      "To ensure ground crew visibility while guiding aircraft/vehicles",
+      "To control passenger movement",
+      "As backup safety cones"
+    ],
+    correct: 1,
+    explanation: "Batons make guidance signals highly visible for movement operations on ramp."
+  },
+  {
+    question: "Which aircraft hold is referred to as 'bulk hold'?",
+    options: [
+      "Compartment 1 forward hold",
+      "Compartment 2 aft hold",
+      "Small manual cargo area at the back",
+      "Cockpit storage area"
+    ],
+    correct: 2,
+    explanation: "The smaller aft section, usually accessed manually, is known as the bulk hold, ideal for wheelchairs, pets, and fragile items."
+  },
+  {
+    question: "Why must gate closure happen before departure time?",
+    options: [
+      "To reduce flight time",
+      "To ensure passenger screening and aircraft security before final checks",
+      "Because it looks professional",
+      "To reduce boarding announcements"
+    ],
+    correct: 1,
+    explanation: "Gate closure ensures all passengers have been checked and the aircraft is safe for pushback."
+  },
+  {
+    question: "Which seating layout does ATR 72 usually have?",
+    options: [
+      "2-2 per row",
+      "3-3 per row",
+      "2-3 per row",
+      "1-2 per row"
+    ],
+    correct: 0,
+    explanation: "ATR 72 has a 2-2 seating per row( except row 1) for fwd cargo hold space distribution."
+  },
+  {
+    question: "On Airbus A321, which zone has additional exit doors compared to A320?",
+    options: [
+      "Over-wing area",
+      "Cockpit door",
+      "Cabin rear bulkhead",
+      "Nose bulkhead"
+    ],
+    correct: 0,
+    explanation: "A321 has additional over-wing exits compared to A320 due to higher passenger capacity."
+  },
+  {
+    question: "Why is knowledge of aircraft seat configuration important for airline staff?",
+    options: [
+      "To direct passengers in wrong seat",
+      "For weight and balance management during boarding",
+      "For cabin crew scheduling",
+      "For decoration purposes"
+    ],
+    correct: 1,
+    explanation: "Knowing seat/row numbers helps maintain balance during boarding and assists during emergencies."
+  },
+  {
+    question: "Which holds generally stores assistive devices in Airbus aircraft?",
+    options: [
+      "Forward  hold",
+      "Overhead bin",
+      "Bulk hold",
+      "Cockpit"
+    ],
+    correct: 0,
+    explanation: "Forward holds, compartment 1 is used to load assistive devices."
+  }
+];
 
 
 
