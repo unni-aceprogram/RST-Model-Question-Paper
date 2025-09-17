@@ -1,192 +1,402 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap">
-
-  <meta charset="UTF-8">
-  <title>Ramp Safety Quiz</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap">
+  <meta charset="UTF-8" />
+  <title>RST Practice Set 8</title>
   <style>
-    body {
-  font-family: 'Inter', Arial, sans-serif;
-  background: linear-gradient(120deg, #e3f6f5 0%, #ffe8d6 100%);
-  color: #23395d;
-  min-height: 100vh;
-  margin: 0;
-  padding: 0;
-}
+     body {
+    font-family: 'Inter', Arial, sans-serif;
+    background: linear-gradient(120deg, #e3f6f5 0%, #ffe8d6 100%);
+    color: #23395d;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+  }
 
-.container {
-  width: 96%;
-  max-width: 500px;
-  margin: 40px auto 0 auto;
-  background: #fff;
-  border-radius: 20px;
-  box-shadow: 0 8px 32px rgba(34,57,93,0.15);
-  padding: 32px 24px;
-  position: relative;
-}
+  .container {
+    width: 96%;
+    max-width: 500px;
+    margin: 40px auto 0 auto;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(34,57,93,0.15);
+    padding: 32px 24px;
+    position: relative;
+  }
 
-h1 {
-  font-size: 2.2em;
-  color: #207bfa;
-  font-weight: 700;
-  letter-spacing: 1px;
-  margin-bottom: 10px;
-}
+  h1 {
+    font-size: 2.2em;
+    color: #207bfa;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+  }
 
-#progress-container {
-  width: 100%;
-  background: #e9ecef;
-  height: 12px;
-  border-radius: 6px;
-  overflow: hidden;
-  margin-bottom: 20px;
-}
+  #progress-container {
+    width: 100%;
+    background: #e9ecef;
+    height: 12px;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 10px;
+  }
 
-#progress-bar {
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(90deg, #207bfa 0%, #43cea2 100%);
-  transition: width 0.4s ease;
-}
+  #progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #207bfa 0%, #43cea2 100%);
+    transition: width 0.4s ease;
+  }
 
-#question-counter {
-  font-size: 1.1em;
-  font-weight: 600;
-  color: #525252;
-  margin: 14px 0 18px 0;
-}
+  #question-counter {
+    font-size: 1.1em;
+    font-weight: 600;
+    color: #525252;
+    margin: 10px 0 18px 0;
+    text-align: center;
+  }
 
-.card {
-  background: #f9f9fb;
-  padding: 28px 24px;
-  border-radius: 16px;
-  box-shadow: 0 2px 14px rgba(34,57,93,0.07);
-  text-align: left;
-}
+  .card {
+    background: #f9f9fb;
+    padding: 28px 24px;
+    border-radius: 16px;
+    box-shadow: 0 2px 14px rgba(34,57,93,0.07);
+    text-align: left;
+  }
 
-.options label {
-  display: block;
-  background: #f5fafd;
-  font-size: 1em;
-  margin: 10px 0;
-  cursor: pointer;
-  padding: 11px 16px;
-  border-radius: 8px;
-  border: 2px solid #e3f6f5;
-  transition: background 0.3s, border-color 0.3s;
-}
+  .options label {
+    display: block;
+    background: #f5fafd;
+    font-size: 1em;
+    margin: 10px 0;
+    cursor: pointer;
+    padding: 11px 16px;
+    border-radius: 8px;
+    border: 2px solid #e3f6f5;
+    transition: background 0.3s, border-color 0.3s;
+  }
 
-.options label:hover, .options input:focus + label {
-  background: #e3f6f5;
-  border-color: #207bfa;
-}
+  .options input {
+    margin-right: 11px;
+  }
 
-.options input {
-  margin-right: 11px;
-}
+  .btn {
+    display: inline-block;
+    margin: 18px 10px 0 0;
+    padding: 12px 30px;
+    font-size: 1.15em;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #207bfa 0%, #43cea2 100%);
+    color: #fff;
+    box-shadow: 0 3px 10px rgba(34,57,93,0.08);
+    transition: background 0.25s;
+  }
 
-.btn {
-  display: inline-block;
-  margin: 18px 10px 0 0;
-  padding: 12px 30px;
-  font-size: 1.15em;
-  font-weight: 600;
-  cursor: pointer;
-  border: none;
-  border-radius: 8px;
-  background: linear-gradient(90deg, #207bfa 0%, #43cea2 100%);
-  color: #fff;
-  box-shadow: 0 3px 10px rgba(34,57,93,0.08);
-  transition: background 0.25s;
-}
+  .btn:hover { background: linear-gradient(90deg, #43cea2 0%, #207bfa 100%); }
 
-.btn:hover { background: linear-gradient(90deg, #43cea2 0%, #207bfa 100%); }
+  .correct {
+    background: #e6ffed !important;
+    border-color: #43cea2 !important;
+    opacity: 0.6;
+    pointer-events: none;
+  }
 
-.correct { background: #e6ffed !important; border-color: #43cea2 !important; }
-.wrong { background: #ffebef !important; border-color: #fa205c !important; }
+  .wrong {
+    background: #ffebef !important;
+    border-color: #fa205c !important;
+    opacity: 0.6;
+    pointer-events: none;
+  }
 
-.timer {
-  font-weight: bold;
-  margin-bottom: 15px;
-  font-size: 1.08em;
-  color: #207bfa;
-}
+  .disabled-option {
+    opacity: 0.6;
+    pointer-events: none;
+  }
 
-.timer.red { color: #fa205c; }
-.timer.green { color: #43cea2; }
+  .timer {
+    font-weight: bold;
+    margin-bottom: 15px;
+    font-size: 1.08em;
+    color: #207bfa;
+  }
 
-.explanation {
-  margin-top: 18px;
-  padding: 12px 16px;
-  background: #f6f3e9;
-  border-left: 5px solid #43cea2;
-  border-radius: 0 8px 8px 0;
-  font-size: 0.99em;
-  color: #525252;
-}
+  .timer.red { color: #fa205c; }
+  .timer.green { color: #43cea2; }
 
-#alert {
-  display: none;
-  font-size: 1.07em;
-  color: #fa205c;
-  letter-spacing: 0.5px;
-  margin: 6px 0;
-  font-weight: 700;
-}
+  .explanation {
+    margin-top: 18px;
+    padding: 12px 16px;
+    background: #f6f3e9;
+    border-left: 5px solid #43cea2;
+    border-radius: 0 8px 8px 0;
+    font-size: 0.99em;
+    color: #525252;
+  }
 
-#sound-toggle {
-  margin: 18px 0;
-  cursor: pointer;
-  font-size: 1em;
-  color: #43cea2;
-  font-weight: 600;
-}
+  #alert {
+    display: none;
+    font-size: 1.07em;
+    color: #fa205c;
+    letter-spacing: 0.5px;
+    margin: 6px 0;
+    font-weight: 700;
+    text-align: center;
+  }
 
-#score-container {
-  margin-top: 22px;
-}
+  #sound-toggle {
+    margin: 18px 0;
+    cursor: pointer;
+    font-size: 1em;
+    color: #43cea2;
+    font-weight: 600;
+  }
 
-.highlight-latest-result {
-  font-size: 1.33em;
-  font-weight: 800;
-  letter-spacing: 1px;
-  margin-bottom: 18px;
-  color: #207bfa;
-}
+  #score-container {
+    margin-top: 22px;
+    text-align: center;
+  }
+
+  .highlight-latest-result {
+    font-size: 1.33em;
+    font-weight: 800;
+    letter-spacing: 1px;
+    margin-bottom: 18px;
+    color: #207bfa;
+  }
+
+  #time-up-message {
+    font-size: 1.1em;
+    color: #fa205c;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Ramp Safety Quiz</h1>
+    <h1>RST Practice Set 8</h1>
     <div id="sound-toggle" onclick="toggleSound()">
       <span id="sound-icon">🔊</span> <span id="sound-text">Sound ON</span>
     </div>
     <div id="progress-container"><div id="progress-bar"></div></div>
-    <div id="question-counter"></div>
+    <div id="question-counter">Questions : 25</div>
     <div id="alert">⏰ Hurry! Time is almost up!</div>
     <div id="quiz-container"></div>
     <div id="score-container"></div>
     <button id="start-button" class="btn">Start Quiz</button>
   </div>
   <audio id="correct-sound" src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg"></audio>
-
   <audio id="wrong-sound" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"></audio>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script>
+    const quizData = [
+      {
+        question: "What is the correct cargo unloading sequence in any aircraft?",
+        options: ["Aft to forward", "Forward to aft", "Simultaneous forward and aft", "Only aft first"],
+        correct: 0,
+        explanation: "Cargo in any aircraft is loaded forward to aft to maintain center of gravity and prevent tail tipping."
+      },
+      {
+        question: "What is the full form of LIR?",
+        options: ["Loading Instruction Report", "Load Information Report", "Landing Incident Report", "Loading Interim Record"],
+        correct: 0,
+        explanation: "LIR stands for Loading Instruction Report, which guides proper cargo and baggage distribution."
+      },
+      {
+        question: "What is the full form of LDM?",
+        options: ["Loading Details Manifest", "Load and Discharge Manifest", "Load Distribution Message", "Landing Data Manifest"],
+        correct: 2,
+        explanation: "LDM stands for Load Distribution Message, conveying final load distribution details electronically."
+      },
+      {
+        question: "Which document is used for loading baggage and cargo in an aircraft?",
+        options: ["NOTOC", "LDM", "LIR", "Safety Checklist"],
+        correct: 2,
+        explanation: "LIR (Loading Instruction Report) is the primary document used for loading instructions."
+      },
+      {
+        question: "What precaution must be taken during aircraft fueling?",
+        options: ["Keep all doors open", "Use mobile phones near fueling point", "Ensure aircraft and fueling vehicle are grounded", "Keep engines running"],
+        correct: 2,
+        explanation: "During fueling, both aircraft and tankers must be properly grounded and safety zones maintained."
+      },
+      {
+        question: "What type of information is shown in the first row of the LIR?",
+        options: ["Planned load data", "Final confirmed load", "Arrival information", "Fuel consumption reports"],
+        correct: 2,
+        explanation: "The first row of LIR reflects arrival information like inbound baggage and cargo."
+      },
+      {
+        question: "What type of data is shown in the middle row of the LIR?",
+        options: ["Planned load data", "Final load data", "Arrival remarks", "Fueling information"],
+        correct: 0,
+        explanation: "The middle row of LIR contains planned data for baggage and cargo distribution."
+      },
+      {
+        question: "What type of data is shown in the last row of the LIR?",
+        options: ["Planned load data", "Final load data", "Arrival baggage details", "Cargo dangerous goods list"],
+        correct: 1,
+        explanation: "The last row of the LIR contains final data, updated after actual loading is complete."
+      },
+      {
+        question: "How many  doors are present on Airbus A320, A321, and ATR aircraft?",
+        options: ["A320: 4, A321: 6, ATR: 3", "A320: 3, A321: 6, ATR: 2", "A320: 6, A321: 4, ATR: 3", "A320: 2, A321: 4, ATR: 3"],
+        correct: 0,
+        explanation: "A320 has 4 passenger doors, A321 has 6, and ATR has 3 including its rear left boarding door."
+      },
+      {
+        question: "How are self-actuating brakes enabled in baggage trolleys?",
+        options: ["By locking the wheels with a separate pin", "By turning the handle 90 degrees and putting it down", "By removing the brake lever", "By pushing trolley forward rapidly"],
+        correct: 1,
+        explanation: "Baggage trolley is secured when the handle is turned 90° downwards and placing the handle down."
+      },
+      {
+        question: "On ATR aircraft, where are assistive devices loaded?",
+        options: ["Forward hold", "Aft hold", "Rear section", "Main cabin"],
+        correct: 2,
+        explanation: "Assistive devices such as wheelchairs are loaded in the rear section of the ATR."
+      },
+      {
+        question: "On ATR aircraft, where are short connection bags loaded?",
+        options: ["Forward compartment", "Rear compartment", "Bulk hold", "Cabin overhead bins"],
+        correct: 1,
+        explanation: "Short connection bags are loaded in the rear compartment for quick offloading."
+      },
+      {
+        question: "What is the full form of DAA?",
+        options: ["Delivery at Arrivals", "Delivery Advice Acknowledgement", "Delivery at Aircraft", "Documented Airside Authorization"],
+        correct: 2,
+        explanation: "DAA stands for Delivery at Aircraft, referring to special baggage or late check-in items."
+      },
+      {
+        question: "Where should DAA baggage be delivered?",
+        options: ["Check-in counter", "Cargo terminal", "At the airside, directly to L1", "Passenger lounge"],
+        correct: 2,
+        explanation: "DAA items should be delivered directly at the airside to the aircraft upon arrival of A/C."
+      },
+      {
+        question: "Who is responsible for conducting FOD (Foreign Object Debris) checks?",
+        options: ["Only housekeeping staff", "Only ramp staff", "Only security staff", "All ground staff"],
+        correct: 3,
+        explanation: "FOD checks are the responsibility of all ground staff to ensure a safe operating environment."
+      },
+      {
+        question: "Who should report a safety violation spotted at the airport or ramp?",
+        options: ["Supervisors only", "Managers only", "All employees", "Duty managers only"],
+        correct: 2,
+        explanation: "Every employee is responsible for reporting any safety violation without exception."
+      },
+      {
+        question: "If damage is noticed on an aircraft, whom should it be reported to immediately?",
+        options: ["Security officer", "Ground handling agent", "Airport manager", "Aircraft Maintenance Engineer (AME)"],
+        correct: 3,
+        explanation: "Any aircraft damage must be immediately reported to the Aircraft Maintenance Engineer (AME)."
+      },
+      {
+        question: "Who is responsible for releasing passenger coach from gates during boarding?",
+        options: ["Drivers only", "Agile Supervisors only", "AOCS only", "All of the above"],
+        correct: 2,
+        explanation: "AOCS Staff holds the responsibility of releasing coach from gates."
+      },
+      {
+        question: "Which of the following is an example of an invisible hazard at the airport?",
+        options: ["Loose baggage", "Noise", "FOD article", "Spillage on apron"],
+        correct: 1,
+        explanation: "Excessive noise from aircraft and ground equipment is an invisible hazard that poses health risks."
+      },
+      {
+  question: "What is the Safety Diamond near an aircraft?",
+  options: [
+    "An area painted in red around aircraft for emergency exit",
+    "The area beneath the aircraft wings only",
+    "A defined zone around the aircraft where only limited vehicles can enter",
+    "The boarding gate area"
+  ],
+  correct: 2,
+  explanation: "The Safety Diamond is a defined area around the aircraft, including nose, wings, and tail section, where movement is highly restricted for safety."
+},
+{
+  question: "Which motorized vehicle is allowed to enter the Safety Diamond?",
+  options: [
+    "Fuel bowser",
+    "Pushback tug",
+    "Catering truck",
+    "Passenger coach"
+  ],
+  correct: 2,
+  explanation: "Only specific vehicles like the catering truck are permitted in the Safety Diamond due to safety and operational necessity."
+},
+{
+  question: "What is the maximum number of trolleys that can be towed by a tractor?",
+  options: [
+    "3",
+    "4",
+    "5",
+    "6"
+  ],
+  correct: 2,
+  explanation: "A maximum of 5 trolleys can be towed by a tractor to ensure maneuverability and maintain safe stopping distance."
+},
+{
+  question: "How many minutes before the arrival of an aircraft should staff reach the bay?",
+  options: [
+    "10 minutes",
+    "15 minutes",
+    "20 minutes",
+    "5 minutes"
+  ],
+  correct: 1,
+  explanation: "Ramp staff must report to the bay at least 15 minutes before aircraft arrival for preparation and safety checks."
+},
+{
+  question: "What should ramp staff do immediately after reaching the bay?",
+  options: [
+    "Wait for the aircraft to arrive",
+    "Start loading cargo",
+    "Begin aircraft inspection",
+    "Conduct equipment check, FOD check, and team briefing"
+  ],
+  correct: 3,
+  explanation: "After reaching the bay, staff must perform equipment checks, FOD inspection, and a quick team briefing before aircraft arrival."
+},
+{
+  question: "What is the difference in wingspan between A320 aircraft with Sharklets and those with Winglets?",
+  options: [
+    "2.00 meters",
+    "1.00 meter",
+    "1.70 meters",
+    "No difference"
+  ],
+  correct: 2,
+  explanation: "A320 with Sharklets has a wingspan that is 1.70 meters longer than the version with traditional Winglets."
+},
+{
+  question: "What is the area called that combines the service road and apron?",
+  options: [
+    "Taxiway",
+    "Ramp",
+    "Safety zone",
+    "Hold point"
+  ],
+  correct: 1,
+  explanation: "Ramp refers to the combined area of the apron and service road, where aircraft handling operations take place."
+}
 
-
-
-
-let currentQuestion = 0;
+    ];
+    let currentQuestion = 0;
     let score = 0;
     let timer;
-    let timeLeft = 20;
+    let timeLeft = 60;
     let soundOn = true;
     const userAnswers = [];
     const allResults = [];
+
     const quizContainer = document.getElementById("quiz-container");
     const scoreContainer = document.getElementById("score-container");
     const progressBar = document.getElementById("progress-bar");
@@ -196,18 +406,21 @@ let currentQuestion = 0;
     const correctSound = document.getElementById("correct-sound");
     const wrongSound = document.getElementById("wrong-sound");
 
-    function startQuiz() {
-      currentQuestion = 0;
-      score = 0;
-      userAnswers.length = 0;
-      startButton.style.display = "none";
-      scoreContainer.innerHTML = "";
-      showQuestion();
-    }
+   function startQuiz() {
+    currentQuestion = 0;
+    score = 0;
+    userAnswers.length = 0;
+    quizStartTime = new Date(); // Track quiz start time
+    startButton.style.display = "none";
+    scoreContainer.innerHTML = "";
+    showQuestion();
+  }
+
     function showQuestion() {
       clearInterval(timer);
-      timeLeft = 20;
+      timeLeft = 60;
       updateTimer();
+      alertBox.style.display = "none";
       const questionData = quizData[currentQuestion];
       quizContainer.innerHTML = `
         <div class="card">
@@ -215,33 +428,50 @@ let currentQuestion = 0;
           <h2>${questionData.question}</h2>
           <div class="options">
             ${questionData.options.map((opt, i) =>
-              `<label><input type="radio" name="answer" value="${i}"> ${opt}</label>`
+              `<label class=""><input type="radio" name="answer" value="${i}"> ${opt}</label>`
             ).join("")}
           </div>
+          <div id="warning-message"></div>
           <button class="btn" onclick="submitAnswer()">Submit</button>
         </div>
       `;
       questionCounter.textContent = `Question ${currentQuestion + 1} of ${quizData.length}`;
       progressBar.style.width = `${((currentQuestion) / quizData.length) * 100}%`;
+
       timer = setInterval(() => {
         timeLeft--;
         updateTimer();
         if (timeLeft <= 5) alertBox.style.display = "block";
-        if (timeLeft === 0) submitAnswer();
+        if (timeLeft === 0) submitAnswer(true);
       }, 1000);
     }
+
     function updateTimer() {
       const timerEl = document.getElementById("timer");
       if (!timerEl) return;
       timerEl.textContent = `Time left: ${timeLeft}s`;
       timerEl.className = "timer " + (timeLeft <= 5 ? "red" : "green");
     }
-    function submitAnswer() {
-      clearInterval(timer);
-      alertBox.style.display = "none";
+
+    function submitAnswer(auto = false) {
       const selected = document.querySelector('input[name="answer"]:checked');
       const questionData = quizData[currentQuestion];
+
+      if (!selected && !auto) {
+        const warning = document.getElementById("warning-message");
+        if (warning) warning.textContent = "⚠️ Please select an option before submitting.";
+        return;
+      }
+
+      // Clear the timer only after validation
+      clearInterval(timer);
+      alertBox.style.display = "none";
+
+      const warning = document.getElementById("warning-message");
+      if (warning) warning.textContent = "";
+
       let isCorrect = false;
+
       if (selected) {
         const answer = parseInt(selected.value);
         userAnswers[currentQuestion] = answer;
@@ -252,68 +482,176 @@ let currentQuestion = 0;
       } else {
         userAnswers[currentQuestion] = null;
       }
-      const options = document.querySelectorAll(".options label");
-      options.forEach((opt, i) => {
-        if (i === questionData.correct) opt.classList.add("correct");
-        else if (selected && i === parseInt(selected.value)) opt.classList.add("wrong");
+
+      const optionsLabels = document.querySelectorAll(".options label");
+      optionsLabels.forEach((label, i) => {
+        label.classList.add("disabled");
+        const input = label.querySelector('input');
+        if (input) input.disabled = true;
+
+        if (i === questionData.correct) label.classList.add("correct");
+        else if (selected && i === parseInt(selected.value)) label.classList.add("wrong");
       });
-      setTimeout(() => {
-        if (isCorrect) {
-          if (soundOn) correctSound.play();
-          confetti({ particleCount: 80, spread: 70, origin: { y: 0.6 } });
-        } else {
-          if (soundOn) wrongSound.play();
-        }
-      }, 300);
+
+      const submitBtn = quizContainer.querySelector("button.btn");
+      if (submitBtn) submitBtn.disabled = true;
+
       quizContainer.innerHTML += `
         <div class="explanation"><strong>Explanation:</strong> ${questionData.explanation}</div>
         <button class="btn" onclick="nextQuestion()">Next</button>
       `;
-      document.querySelectorAll('input[name="answer"]').forEach(i => i.disabled = true);
-      document.querySelector('.btn').disabled = true;
+
+      setTimeout(() => {
+        if (isCorrect) {
+          if (soundOn) correctSound.play();
+          confetti();
+        } else {
+          if (soundOn) wrongSound.play();
+        }
+      }, 150);
+
+      progressBar.style.width = `${((currentQuestion + 1) / quizData.length) * 100}%`;
+
+      allResults[currentQuestion] = {
+        question: questionData.question,
+        selected: selected ? parseInt(selected.value) : null,
+        correct: questionData.correct,
+        options: questionData.options,
+        explanation: questionData.explanation,
+      };
     }
+
     function nextQuestion() {
       currentQuestion++;
-      if (currentQuestion < quizData.length) {
-        showQuestion();
-      } else {
+      if (currentQuestion >= quizData.length) {
         showScore();
+      } else {
+        showQuestion();
       }
     }
-    function showScore() {
-      progressBar.style.width = "100%";
-      quizContainer.innerHTML = "";
-      scoreContainer.innerHTML = `
-        <div class="highlight-latest-result">You scored ${score} out of ${quizData.length}!</div>
-        <button class="btn" onclick="startQuiz()">Restart Quiz</button>
-        <button class="btn" onclick="exportPDF()">Export Results</button>
+
+  function showScore() {
+    const endTime = new Date();
+    const timeTaken = Math.floor((endTime - quizStartTime) / 1000); // in seconds
+    const percentage = Math.round((score / quizData.length) * 100);
+    const passed = percentage >= 90;
+
+    quizContainer.innerHTML = "";
+    questionCounter.textContent = `Quiz Completed!`;
+    progressBar.style.width = "100%";
+
+    let resultMessage = `
+      <div class="highlight-latest-result">
+        You scored ${score} out of ${quizData.length} (${percentage}%)
+        <br><span style="color:${passed ? '#43cea2' : '#fa205c'}; font-weight:bold;">
+          ${passed ? "✅ Passed!" : "❌ Not Passed"}
+        </span>
+      </div>
+    `;
+
+    let buttonsHTML = `
+  <div class="button-group">
+    <button class="btn" onclick="startQuiz()">Restart Quiz</button>
+    <button class="btn" onclick="toggleReview()">Review Answers</button>
+    <button class="btn" onclick="downloadResultsPDF(${score}, ${quizData.length}, ${timeTaken})">Share Results</button>
+    <button class="btn" onclick="goHome()">Homepage</button>
+  </div>
+  <div id="review-section"></div> <!-- placeholder for dynamic review answers -->
+`;
+
+
+    scoreContainer.innerHTML = resultMessage + buttonsHTML;
+  }
+function toggleReview() {
+  const reviewSection = document.getElementById("review-section");
+  if (reviewSection.innerHTML.trim() !== "") {
+    // Already displayed, hide it
+    reviewSection.innerHTML = "";
+  } else {
+    // Not displayed, show it
+    let resultsHTML = `<h3 style="text-align:center;">Review Your Answers:</h3>`;
+    allResults.forEach((result, i) => {
+      const userAnswerIndex = result.selected;
+      const correctIndex = result.correct;
+      resultsHTML += `
+        <div class="card" style="margin-bottom:15px; text-align:left;">
+          <strong>Q${i + 1}: ${result.question}</strong><br>
+          Your answer: ${userAnswerIndex === null ? "No answer" : result.options[userAnswerIndex]} ${userAnswerIndex === correctIndex ? "✅" : "❌"}<br>
+          Correct answer: ${result.options[correctIndex]}<br>
+          <div class="explanation">${result.explanation}</div>
+        </div>
       `;
-      allResults.push({ date: new Date().toLocaleString(), score: `${score}/${quizData.length}` });
-      localStorage.setItem("quizResults", JSON.stringify(allResults));
-      startButton.style.display = "inline-block";
-    }
+    });
+    reviewSection.innerHTML = resultsHTML;
+  }
+}
+
+
+function downloadResultsPDF(score, total, timeTaken) {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  const now = new Date();
+  const formattedDate = now.toLocaleString();
+  const percentage = Math.round((score / total) * 100) + "%";
+
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(16);
+  doc.text("RST Practice Set Results", 20, 20);
+
+  // Headers for the table
+  const headers = ["Date", "Score", "Time Taken"];
+  const data = [
+    [
+      formattedDate,
+      `${score} / ${total} (${percentage})`,
+      `${timeTaken} seconds`
+    ]
+  ];
+
+  // Table settings
+  const startX = 20;
+  const startY = 30;
+  const colWidths = [60, 60, 60];
+  const rowHeight = 10;
+
+  // Draw headers
+  headers.forEach((header, i) => {
+    doc.setFillColor(240, 240, 240);
+    doc.rect(startX + colWidths.slice(0, i).reduce((a, b) => a + b, 0), startY, colWidths[i], rowHeight, 'FD');
+    doc.setTextColor(0);
+    doc.setFontSize(12);
+    doc.text(header, startX + colWidths.slice(0, i).reduce((a, b) => a + b, 0) + 2, startY + 7);
+  });
+
+  // Draw data row
+  data[0].forEach((text, i) => {
+    const x = startX + colWidths.slice(0, i).reduce((a, b) => a + b, 0);
+    const y = startY + rowHeight;
+    doc.rect(x, y, colWidths[i], rowHeight); // Draw cell
+    doc.text(text, x + 2, y + 7);
+  });
+
+  doc.save("quiz_results.pdf");
+}
+
+  function goHome() {
+    window.location.href = "index.html"; // change path if needed
+  }
     function toggleSound() {
       soundOn = !soundOn;
-      document.getElementById("sound-icon").textContent = soundOn ? "🔊" : "🔇";
-      document.getElementById("sound-text").textContent = soundOn ? "Sound ON" : "Sound OFF";
+      const icon = document.getElementById("sound-icon");
+      const text = document.getElementById("sound-text");
+      if (soundOn) {
+        icon.textContent = "🔊";
+        text.textContent = "Sound ON";
+      } else {
+        icon.textContent = "🔇";
+        text.textContent = "Sound OFF";
+      }
     }
-    function exportPDF() {
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF();
-      doc.setFontSize(16);
-      doc.text("Quiz Results", 10, 10);
-      let y = 20;
-      allResults.forEach((res, i) => {
-        doc.text(`${i + 1}. ${res.date} - Score: ${res.score}`, 10, y);
-        y += 10;
-      });
-      doc.save("quiz_results.pdf");
-    }
-    window.onload = () => {
-      const saved = localStorage.getItem("quizResults");
-      if (saved) allResults.push(...JSON.parse(saved));
-    };
+
     startButton.addEventListener("click", startQuiz);
   </script>
 </body>
 </html>
+

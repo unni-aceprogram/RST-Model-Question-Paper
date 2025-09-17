@@ -3,7 +3,7 @@
 <head>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap">
   <meta charset="UTF-8" />
-  <title>RST Practice Set 1</title>
+  <title>RST Practice Set 9</title>
   <style>
      body {
     font-family: 'Inter', Arial, sans-serif;
@@ -179,7 +179,7 @@
 </head>
 <body>
   <div class="container">
-    <h1>RST Practice Set 1</h1>
+    <h1>RST Practice Set 9</h1>
     <div id="sound-toggle" onclick="toggleSound()">
       <span id="sound-icon">🔊</span> <span id="sound-text">Sound ON</span>
     </div>
@@ -195,284 +195,309 @@
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script>
-    const quizData = [
-      {
-        question: "When should hearing protection be worn on the ramp?",
-        options: [
-          "Only during engine start-up",
-          "Whenever aircraft are operating",
-          "Only near baggage handling areas",
-          "Only at night"
-        ],
-        correct: 1,
-        explanation: "Hearing protection must always be worn when aircraft are operating due to high noise levels."
-      },
-      {
-        question: "What should you do if you see a fuel spill on the ramp?",
-        options: [
-          "Ignore it, it will evaporate",
-          "Inform the supervisor immediately",
-          "Cover it with sand quietly",
-          "Continue working unless it spreads"
-        ],
-        correct: 1,
-        explanation: "Fuel spills must be reported immediately to prevent fire hazards."
-      },
-      {
-        question: "What is the minimum clearance required when walking behind an aircraft engine at powered on?",
-        options: [
-          "15 meters",
-          "30 meters",
-          "45 meters",
-          "60 meters"
-        ],
-        correct: 3,
-        explanation: "A minimum of 15 meters clearance is required behind engines at idle due to jet blast hazards."
-      },
-      {
-        question: "Which color vests are usually worn for visibility on the ramp?",
-        options: [
-          "Blue",
-          "Red",
-          "Company provied Visibility Jacket",
-          "Black"
-        ],
-        correct: 2,
-        explanation: "Yellow or orange reflective vests are worn for high visibility to moving vehicles and aircraft."
-      },
-      {
-        question: "If you see unauthorized personnel on the ramp, you should:",
-        options: [
-          "Approach them directly and escort them out",
-          "Ignore them, it's not your job",
-          "Report to security/supervisor immediately",
-          "Ask other staff to check"
-        ],
-        correct: 2,
-        explanation: "Security breaches should be reported to supervisors or security for everyone's safety."
-      },
-      {
-        question: "The best way to avoid slips and falls on the ramp is to:",
-        options: [
-          "Walk quickly to avoid delays",
-          "Wear rubber-soled shoes and watch for hazards",
-          "Ignore wet spots",
-          "Only use designated roadways"
-        ],
-        correct: 1,
-        explanation: "Rubber-soled shoes and constant awareness reduce the risk of slipping on wet or oily spots."
-      },
-      {
-        question: "If you hear a loud warning horn from an aircraft:",
-        options: [
-          "Run towards it",
-          "Evacuate the ramp area calmly",
-          "Call your friends to watch",
-          "Put on headphones"
-        ],
-        correct: 1,
-        explanation: "A warning horn may indicate emergency or imminent aircraft movement; calmly evacuate the area."
-      },
-      {
-        question: "What does FOD stand for?",
-        options: [
-          "Fuel on Duty",
-          "Flights on Distance",
-          "Foreign Object Debris",
-          "Face on Dust"
-        ],
-        correct: 2,
-        explanation: "FOD stands for Foreign Object Debris, which refers to loose objects that could damage aircraft."
-      },
-      {
-        question: "What is the full form of PPE?",
-        options: [
-          "Personal Protective Equipment",
-          "People Praising Each Other",
-          "Personal Protecting Others",
-          "Praise Protest Ends"
-        ],
-        correct: 0,
-        explanation: "PPE means Personal Protective Equipment, required for worker safety."
-      },
-      {
-        question: "Where are Anti Collision lights located?",
-        options: [
-          "Front and Back",
-          "Both wings’ tips",
-          "Belly and top of aircraft",
-          "Both the sides of the aircraft"
-        ],
-        correct: 2,
-        explanation: "The anti-collision lights are on the belly and top of aircraft, alerting ground crew."
-      },
-      {
-        question: "Who is an aircraft Marshaller?",
-        options: [
-          "Assistant for passengers at airport",
-          "Person assisting airline crew",
-          "Ground staff guiding pilots with signals",
-          "Staff coordinated with the captain"
-        ],
-        correct: 2,
-        explanation: "Aircraft Marshaller guides aircraft via visual hand signals for safe ground movement."
-      },
-      {
-        question: "Ramp Driver need not have to wear the PPE while walking in the apron area.",
-        options: [
-          "TRUE",
-          "FALSE",
-          "Not Sure",
-          "Sometimes"
-        ],
-        correct: 1,
-        explanation: "PPE is always required; ramp drivers must use the safety gear while in the apron area."
-      },
-      {
-        question: "Ramp staff can smoke and drive in the ramp area.",
-        options: [
-          "TRUE",
-          "FALSE",
-          "If nobody is looking",
-          "Only at night"
-        ],
-        correct: 1,
-        explanation: "Strict NO: Smoking is prohibited and dangerous in ramp areas."
-      },
-      {
-        question: "Ramp equipment can be parked anywhere without parking brakes ON.",
-        options: [
-          "TRUE",
-          "FALSE",
-          "Only if engine is off",
-          "If supervised"
-        ],
-        correct: 1,
-        explanation: "All ramp equipment must have parking brakes ON when parked to prevent accidents."
-      },
-      {
-        question: "All staff coming to the Ramp/Apron area are supposed to wear the Ramp Jacket.",
-        options: [
-          "TRUE",
-          "FALSE",
-          "Only night shift",
-          "If working near aircraft"
-        ],
-        correct: 0,
-        explanation: "Ramp jackets are vital for visibility and safety for ALL staff on the ramp."
-      },
-      {
-        question: "Who has the right of way on the ramp?",
-        options: [
-          "Passengers",
-          "Airport staff",
-          "Airport vehicles",
-          "Aircraft"
-        ],
-        correct: 3,
-        explanation: "Aircraft always have the right of way; vehicles and staff must yield."
-      },
-      {
-        question: "How many times FOD check is done at bay?",
-        options: [
-          "Two",
-          "Three",
-          "One",
-          "Only on weekends"
-        ],
-        correct: 1,
-        explanation: "FOD check to be done 3 times as failure to do so may cause safety hazards and FOD risks."
-      },
-      {
-        question: "What's the meaning when the aircraft’s anti-collision light is ON?",
-        options: [
-          "Approach the aircraft",
-          "Start loading",
-          "Stand clear of the aircraft",
-          "Take photos"
-        ],
-        correct: 2,
-        explanation: "Anti-collision light ON means aircraft is active—stand clear."
-      },
-      {
-        question: "What do you call the wind force at the back of the aircraft?",
-        options: [
-          "Jet blast",
-          "Jet engine",
-          "Jet tornado",
-          "Jet wind"
-        ],
-        correct: 0,
-        explanation: "Jet blast is the powerful air stream generated by aircraft engines."
-      },
-      {
-        question: "Which safety measure is essential to prevent head injuries during emergency evacuation?",
-        options: [
-          "Wear a hard hat during the drill",
-          "Carry heavy objects while evacuating",
-          "Use hands to cover your head",
-          "Run without looking back"
-        ],
-        correct: 2,
-        explanation: "Hands should cover the head during evacuation to protect from impact."
-      },
-      {
-        question: "Why is it crucial for travelers to stay calm during an airport emergency?",
-        options: [
-          "To cause panic among passengers",
-          "To entertain others",
-          "To reassure and follow instructions",
-          "To argue"
-        ],
-        correct: 2,
-        explanation: "Calmness helps everyone safely respond and follow instructions."
-      },
-      {
-        question: "Why do airport personnel conduct emergency evacuation drills?",
-        options: [
-          "Practice coordination and response",
-          "To simulate panic",
-          "Increase airport revenue",
-          "All of the above"
-        ],
-        correct: 0,
-        explanation: "Drills ensure staff readiness and effective coordination in emergencies."
-      },
-      {
-        question: "What safety measure is implemented to prevent fire hazards during aircraft refueling?",
-        options: [
-          "Using candles for illumination",
-          "Regular aircraft inspection",
-          "Strict refueling protocols",
-          "Ignoring fuel leaks"
-        ],
-        correct: 2,
-        explanation: "Strict refueling protocols are followed to prevent fires."
-      },
-      {
-        question: "What should passengers do if they encounter a medical emergency at the airport?",
-        options: [
-          "Ignore it",
-          "Attempt to help without training",
-          "Notify airport staff immediately",
-          "Take pictures"
-        ],
-        correct: 2,
-        explanation: "Notify trained staff immediately for medical emergencies."
-      },
-      {
-        question: "What are Foreign Object Debris (FOD) control programs designed to prevent?",
-        options: [
-          "Building damage",
-          "Object theft",
-          "Aircraft damage from loose objects",
-          "Noise pollution"
-        ],
-        correct: 2,
-        explanation: "FOD control prevents loose objects from damaging aircraft."
-      }
-    ];
-    let currentQuestion = 0;
+const quizData = [
+{
+    question: "In aircraft cargo handling, what is the precise unloading sequence followed to prevent imbalance?",
+    options: ["From aft section progressing forward", "From nose section moving aft", "Both fore and aft at once", "Exclusively from aft only"],
+    correct: 0,
+    explanation: "Unloading starts from the aft and proceeds forward to maintain stability and prevent tail tipping."
+  },
+  {
+    question: "Which message serves as the final authoritative communication of aircraft load distribution?",
+    options: ["Loading Details Manifest", "Load and Discharge Manifest", "Load Distribution Message", "Landing Data Manifest"],
+    correct: 2,
+    explanation: "LDM (Load Distribution Message) electronically transmits the finalized cargo and baggage distribution."
+  },
+  {
+    question: "During fueling operations, which critical action ensures safety against static discharge hazards?",
+    options: ["Cabin doors must remain open", "Allow phones near fueling zone", "Aircraft and refueling vehicle must be electrically grounded", "Engines left running"],
+    correct: 2,
+    explanation: "Proper grounding of aircraft and tanker during fueling prevents static discharge sparks and accidents."
+  },
+  {
+    question: "What section of an Airbus A321 has more exit doors compared to an A320, and how many total doors does each carry?",
+    options: ["A320 has 4 doors, A321 has 6, ATR has 3", "A320 has 3, A321 has 6, ATR has 2", "A320 has 6, A321 has 4, ATR has 3", "A320 has 2, A321 has 4, ATR has 3"],
+    correct: 0,
+    explanation: "An A320 has 4 passenger doors, an A321 has 6, and an ATR has 3 including its rear boarding entry."
+  },
+{
+    question: "Before operating any Ground Support Equipment (GSE), which checks are strictly mandatory?",
+    options: [
+      "Only cosmetic inspection like branding/cleanliness",
+      "Tire chocks and hydraulic jacks only",
+      "Operational readiness including fuel level, braking system, and control response",
+      "All key checks including ownership branding, fuel, and brake condition"
+    ],
+    correct: 3,
+    explanation: "Prior to using GSE, operators must verify ownership branding, functionality, brakes, and fuel to ensure safety."
+  },
+  {
+    question: "Which sanctioned path must ground vehicles follow when approaching an aircraft?",
+    options: [
+      "Directly from any angle if under 10 km/h",
+      "From behind jet engines to save time",
+      "Exclusively through marked service lanes and authorized entry routes",
+      "Head-on, aligning with cockpit windows"
+    ],
+    correct: 2,
+    explanation: "Ground vehicles are permitted to reach an aircraft solely through dedicated service roads and approved approach paths."
+  },
+  {
+    question: "When an aircraft engine is active, ground staff should:",
+    options: [
+      "Remain well clear of intake and exhaust hazard zones",
+      "Maintain hand contact with fuselage for grounding",
+      "Walk under wing sections for cover",
+      "Position themselves near intake for warmth"
+    ],
+    correct: 0,
+    explanation: "Running engines pose deadly suction and blast risks. Staff must avoid hazard zones around intakes and exhausts."
+  },
+  {
+    question: "Which lighting configuration is compulsory for a vehicle driving on the ramp at night?",
+    options: [
+      "Flashing hazard lights only",
+      "Both headlights and rotating beacon (if installed)",
+      "No lights are necessary within apron lighting",
+      "Interior cabin lights alone"
+    ],
+    correct: 1,
+    explanation: "Vehicles must operate with headlights and, if fitted, rotating beacon lights to maintain visibility and safety."
+  },
+
+{
+    question: "Which color is universally applied for centerline guidance markings inside aircraft bays?",
+    options: [
+      "Blue marking to match taxi lanes",
+      "Yellow continuous line",
+      "White striping similar to runways",
+      "Red for restricted zones"
+    ],
+    correct: 1,
+    explanation: "Aircraft bay centerlines are painted yellow, providing visual guidance for accurate parking alignment."
+  },
+  {
+    question: "Runway surface markings are always painted in which contrasting color for maximum visibility to pilots?",
+    options: [
+      "Red to indicate high alert",
+      "Yellow like taxiways",
+      "White only",
+      "Blue reflecting taxiway lights"
+    ],
+    correct: 2,
+    explanation: "Runway markings must be white, to clearly differentiate them from yellow taxiway markings."
+  },
+  {
+    question: "What does the acronym TCL denote in apron markings?",
+    options: [
+      "Taxiway Center Line",
+      "Traffic Control Limit",
+      "Tail Cone Latch",
+      "Tail Clearance Line"
+    ],
+    correct: 3,
+    explanation: "TCL means Tail Clearance Line, defining the safe clearance boundary for an aircraft’s tail section while parked."
+  },
+  {
+    question: "How is a Tail Clearance Line (TCL) depicted on apron markings for ground staff reference?",
+    options: [
+      "Double continuous yellow line",
+      "Single solid red line",
+      "Single uninterrupted yellow line",
+      "Broken white dashed line"
+    ],
+    correct: 1,
+    explanation: "A TCL is represented by a single continuous red line, designating the rear safety margin."
+  },
+{
+    question: "Who qualifies to perform wing walking during aircraft movement on the apron?",
+    options: [
+      "Any ground services worker available",
+      "Only personnel specifically trained and authorized for wing walking duties",
+      "Cabin crew tasked with boarding assistance",
+      "Airport security officials"
+    ],
+    correct: 1,
+    explanation: "Only trained and authorized staff such as Agile staff and Flight Managers may perform wing walking, as it requires precision and coordination with the marshaller."
+  },
+  {
+    question: "Who is permitted to operate and open passenger doors of an aircraft safely?",
+    options: [
+      "Ground handling personnel certified on that aircraft type",
+      "Any ramp equipment operator",
+      "Passengers with guidance from crew",
+      "Catering personnel"
+    ],
+    correct: 0,
+    explanation: "Only trained ground handling agents (Engineers/AME/Certified Security staff) are authorized to operate passenger doors to avoid damage or injury."
+  },
+  {
+    question: "How many wheel chocks are normally applied to an Airbus A320 during standard operations?",
+    options: [
+      "2 total",
+      "4 total",
+      "6 total",
+      "8 total"
+    ],
+    correct: 3,
+    explanation: "An A320 requires eight chocks: four by the nose wheel and two at each main gear."
+  },
+  {
+    question: "How many safety cones are positioned around an Airbus A320 upon parking?",
+    options: [
+      "11 cones",
+      "6 cones",
+      "8 cones",
+      "10 cones"
+    ],
+    correct: 0,
+    explanation: "For an Airbus A320, 11 cones are required—strategically placed around wings, tail, engines, and nose areas."
+  },
+{
+    question: "On commercial twin-engine aircraft, where is Engine No.1 designated?",
+    options: [
+      "Always on the starboard (right-hand) side",
+      "Always on the port (captain’s left-hand) side",
+      "Mounted at rear tail cone",
+      "Directly on fuselage crown"
+    ],
+    correct: 1,
+    explanation: "International convention assigns Engine No.1 to the captain’s left-hand side, known as the port side."
+  },
+  {
+    question: "At what time before a domestic scheduled departure do check-in counters normally shut down?",
+    options: [
+      "20 minutes prior",
+      "30 minutes prior",
+      "40 minutes prior",
+      "60 minutes prior"
+    ],
+    correct: 3,
+    explanation: "Domestic passenger check-in counters close 60 minutes before departure to allow security processing."
+  },
+  {
+    question: "Boarding gates for commercial flights are closed how many minutes before departure?",
+    options: [
+      "75 minutes prior",
+      "10 minutes prior",
+      "25 minutes prior",
+      "60 minutes prior"
+    ],
+    correct: 2,
+    explanation: "Standard practice is boarding gates close 25 minutes prior to departure, ensuring timely pushback."
+  },
+  {
+    question: "In ATR aircraft, what support system protects against the danger of aft tipping during load operations?",
+    options: [
+      "Tail support strut attachment",
+      "Dedicated tail stand (tail prop)",
+      "Onboard pitch detection device",
+      "Cabin load balance alarm"
+    ],
+    correct: 1,
+    explanation: "The ATR employs a tail stand/prop mechanism as a safeguard against tail-tipping during passenger or cargo loading."
+  },
+  {
+    question: "During daytime wing walking, what equipment is utilized for visibility?",
+    options: [
+      "Glow sticks for hand signaling",
+      "Illuminated neon batons",
+      "Bare hand signals only",
+      "Brightly colored handheld batons"
+    ],
+    correct: 3,
+    explanation: "Wing walkers use bright batons during daylight to make movement signals clearly visible."
+  },
+{
+    question: "Which IATA SSR code specifically represents a stretcher passenger?",
+    options: [
+      "WCHS – Wheelchair Steps",
+      "STCR – Stretcher Passenger",
+      "WCHR – Wheelchair Ramp",
+      "MEDA – Medical Case"
+    ],
+    correct: 1,
+    explanation: "STCR is the correct SSR code for passengers traveling on a stretcher."
+  },
+  {
+    question: "In ATR operations, where are the Aircraft Communications Bus (ACB) panels positioned?",
+    options: [
+      "Mounted on vertical stabilizer top and lower fuselage belly",
+      "Behind left captain’s seat in cockpit",
+      "Inside aft galley service area",
+      "Within cargo hold compartments"
+    ],
+    correct: 0,
+    explanation: "On ATR, the ACB panels are located at the top of the tail fin and the underside of fuselage."
+  },
+  {
+    question: "What describes the ATR 'hotel mode' operation most precisely?",
+    options: [
+      "Allows taxiing on ground using aux system",
+      "Runs No.2 engine to supply AC and electrical power while stationary",
+      "Refers to temporary crew accommodations in terminal",
+      "Activates special seating mode for comfort"
+    ],
+    correct: 1,
+    explanation: "Hotel mode on ATR uses the right engine (No.2) at idle, prop feathered, to power cabin air conditioning and electrics when no APU exists."
+  },
+  {
+    question: "Which passenger door is normally used on ATR aircraft for boarding/deboarding?",
+    options: [
+      "Forward left-side fuselage door",
+      "Aft left-side fuselage door with integrated stairs",
+      "Forward right-side door near cockpit",
+      "Right rear service door"
+    ],
+    correct: 1,
+    explanation: "ATR uses its aft port (rear left) door with integral stairs for passenger boarding/deboarding."
+  },
+{
+    question: "Before approaching any aircraft on stand, which combined check is mandatory?",
+    options: [
+      "Ensure engines are shut down and ACB beacon light is off",
+      "Confirm aircraft is chocked in position",
+      "Obtain explicit clearance from AME/Engineer",
+      "All the listed conditions must be satisfied"
+    ],
+    correct: 3,
+    explanation: "Personnel must only approach aircraft after shutdown confirmation, beacon OFF, chocks installed, and AME clearance if applicable."
+  },
+  {
+    question: "Where must all Ground Handling Equipment (GHE) be parked when not positioned for active use?",
+    options: [
+      "Under wing shadow for quick access",
+      "Outside the defined Equipment Restraint Area (ERA)",
+      "In line with nose gear for support",
+      "Close to passenger entry doors"
+    ],
+    correct: 1,
+    explanation: "To ensure safety clearance, equipment is always parked outside the defined ERA zones."
+  },
+  {
+    question: "Which of the following items does NOT qualify as an assistive device under aviation handling rules?",
+    options: [
+      "Wheelchair for mobility assistance",
+      "Regular handbag carried by passengers",
+      "Crutches provided to PRM",
+      "Walking stick"
+    ],
+    correct: 1,
+    explanation: "Handbags are treated as personal baggage, not mobility-assist devices like wheelchairs, crutches, or sticks."
+  },
+  {
+    question: "During active customer boarding, is it permitted to attach a toilet servicing cart to the aircraft?",
+    options: [
+      "Yes, allowed before aircraft departs",
+      "Yes, but only when cabin crew supervise",
+      "No, prohibited while passengers are boarding",
+      "Only permissible at arrival gate areas"
+    ],
+    correct: 2,
+    explanation: "Attaching toilet carts is strictly prohibited in customer presence due to safety and hygiene protocols."
+  }
+];
+let currentQuestion = 0;
     let score = 0;
     let timer;
     let timeLeft = 60;
@@ -737,4 +762,3 @@ function downloadResultsPDF(score, total, timeTaken) {
   </script>
 </body>
 </html>
-
