@@ -177,8 +177,283 @@ h1 {
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script>
 
-
-
+const quizData = [
+  {
+    question: "What should be checked before going near any aircraft?",
+    options: [
+      "If the aircraft engine is comletely shut down and ACB light is turned off",
+      "If chocks are placed",
+      "If the AME has given clearance",
+      "All of the above"
+    ],
+    correct: 3,
+    explanation: "Before approaching any aircraft, one must verify that all of the four checks to avoid accidents."
+  },
+  {
+    question: "Where should ground handling equipment be parked?",
+    options: [
+      "Directly under the wing",
+      "Outside equipment restraint area (ERA)",
+      "Near the nose gear",
+      "Close to passenger doors"
+    ],
+    correct: 1,
+    explanation: "All ground handling equipment should be parked outside the Equipment restraint Area (ERA) to ensure safety."
+  },
+  {
+    question: "Which of the following is NOT considered an assistive device?",
+    options: [
+      "Wheelchair",
+      "Handbag",
+      "Crutches",
+      "Walking stick"
+    ],
+    correct: 1,
+    explanation: "A handbag is personal baggage, not an assistive device. Assistive devices are meant to aid passenger mobility."
+  },
+{
+    question: "Can the toilet cart be connected while customers are still boarding the Aircraft?",
+    options: [
+      "Yes, before departure",
+      "Yes, under crew supervision",
+      "No, it must not be connected in presence of customers",
+      "Only at arrival gates"
+    ],
+    correct: 2,
+    explanation: "Toilet servicing must never be carried out in customers  presence, for hygiene and safety."
+  },
+  {
+    question: "What is the safe distance a wing walker must maintain from the aircraft wingtip?",
+    options: [
+      "0.5 meters",
+      "1 meter",
+      "2 meters",
+      "3 meters"
+    ],
+    correct: 1,
+    explanation: "Wing walkers must maintain a safe clearance of at least 1 meter from the aircraft wingtip during operations."
+  },
+  {
+    question: "What is the correct safe positioning for a ladder at an aircraft door?",
+    options: [
+      "Touching the door directly",
+      "2 inches away from door and 7 inches below",
+      "At ground level under the door",
+      "Half a meter away from aircraft body"
+    ],
+    correct: 1,
+    explanation: "Ladders must be positioned 2 inches away horizontally from the door and 7 inches below for safe boarding access."
+  },
+  {
+    question: "Who is permitted to occupy the seats at emergency exit doors on an aircraft?",
+    options: [
+      "Any customer who arrives early",
+      "Only able-bodied customers briefed by crew",
+      "Customers with infants",
+      "PRM and wheelchair-bound customers"
+    ],
+    correct: 1,
+    explanation: "Only able-bodied passengers capable of assisting in an evacuation are allowed at emergency exit rows."
+  },
+  {
+    question: "If a PRM customer requests seat 2F on ATR aircraft, can it be allocated?",
+    options: [
+      "Yes, with escort assistance",
+      "Yes, always",
+      "No, PRM customers cannot be seated in 2F",
+      "Only when other seats are full"
+    ],
+    correct: 2,
+    explanation: "PRM (Persons with Reduced Mobility) cannot be allocated 1F seats on ATR, as they are emergency exits."
+  },
+  {
+    question: "Which of the following is a stress relief measure for ground staff?",
+    options: [
+      "Skipping breaks to finish work",
+      "Short relaxation and breathing exercises",
+      "Using mobile phones in restricted zones",
+      "Not reporting fatigue"
+    ],
+    correct: 1,
+    explanation: "Stress relief measures include small breaks, hydration, and relaxation techniques to ensure alertness and safety."
+  },
+  {
+    question: "How many times should an FOD (Foreign Object Debris) check be conducted?",
+    options: [
+      "Once daily",
+      "Twice daily",
+      "Three times ",
+      "Before every flight"
+    ],
+    correct: 2,
+    explanation: "FOD checks must be conducted three times at bay to ensure ramps and operational areas are clear of hazards."
+  },
+  {
+    question: "Why are PRM customers not allowed in emergency exit rows?",
+    options: [
+      "Because seats are smaller",
+      "Because they cannot operate exit safely",
+      "Because crew instructions forbid it",
+      "Because seats are reserved for frequent fliers"
+    ],
+    correct: 1,
+    explanation: "PRM customers cannot be seated at emergency exits, as they may be unable to assist or operate doors during emergencies."
+  },
+  {
+    question: "What is the main purpose of wing walking during aircraft manoeuvring?",
+    options: [
+      "To guide ground handling staff",
+      "To signal marshaller instructions",
+      "To ensure wingtips and engines clear obstacles",
+      "To direct passenger buses"
+    ],
+    correct: 2,
+    explanation: "Wing walking ensures that aircraft wings and engines maintain safe clearance from equipment, vehicles, and obstacles."
+  },
+  {
+    question: "Where is the R3 door located on the Airbus A321?",
+    options: [
+      "Port side, rear section",
+      "Starboard side, forward section",
+      "Starboard side, mid section",
+      "Port side, mid section"
+    ],
+    correct: 2,
+    explanation: "The R3 door on Airbus A321 is located on the starboard (right) side of the mid fuselage."
+  },
+  {
+    question: "Who is authorized to perform aircraft marshalling?",
+    options: [
+      "Flight attendant",
+      "Airline manager",
+      "Aircraft Maintenance Engineer (AME)",
+      "Customer service agent"
+    ],
+    correct: 2,
+    explanation: "Only certified Aircraft Maintenance Engineers (AME) or trained ground personnel are authorized to perform marshalling."
+  },
+  {
+    question: "Who is responsible for wing walking during aircraft operations?",
+    options: [
+      "Co-pilot",
+      "Flight manager",
+      "Airport security staff",
+      "Ground loader"
+    ],
+    correct: 1,
+    explanation: "Wing walking is performed by the Flight Manager to ensure the safe clearance of wings from equipment and structures."
+  },
+  {
+    question: "Are ground handling equipments allowed to touch the aircraft?",
+    options: [
+      "Yes, during loading",
+      "Yes, for refueling",
+      "No, never",
+      "Only under supervision"
+    ],
+    correct: 2,
+    explanation: "Ground handling equipment must never directly touch the aircraft to prevent damage and ensure safety."
+  },
+  {
+    question: "Where are smoke detectors installed in an aircraft holds?",
+    options: [
+      "In the cockpit only",
+      "In the ceilings of holds",
+      "Only in cabin overhead bins",
+      "Inside passenger seats"
+    ],
+    correct: 1,
+    explanation: "Smoke detectors are located in cargo holds and on the ceilings to detect fire hazards quickly."
+  },
+  {
+    question: "Where should the BFL equipment be switched on?",
+    options: [
+      "Inside cockpit",
+      "Outside Equipment Restraint Area (ERA)",
+      "Near the boarding gate",
+      "Beside passenger steps"
+    ],
+    correct: 1,
+    explanation: "BFL are switched on outside the ERA to avoid false fire alarm."
+  },
+  {
+    question: "Human remains (HUM) are accepted on which type of aircraft?",
+    options: [
+      "Only A320 aircraft",
+      "Only A321 aircraft",
+      "Only ATR aircraft",
+      "All  Airbus Aircraft types"
+    ],
+    correct: 3,
+    explanation: "Human remains (HUM) are accepted for carriage only on Airbus aircraft, not ATR types."
+  },
+  {
+    question: "How many safety straps are used when handling HUM (Human Remains)?",
+    options: [
+      "1",
+      "2",
+      "3",
+      "4"
+    ],
+    correct: 1,
+    explanation: "Two safety straps are used when securing human remains during transportation."
+  },
+  {
+    question: "The head of a HUM (Human Remains) should face which direction when loaded?",
+    options: [
+      "Tail of the aircraft",
+      "Nose of the aircraft",
+      "Towards left wing",
+      "Towards right wing"
+    ],
+    correct: 1,
+    explanation: "For standard procedure, the head of human remains should face the nose of the aircraft when loaded."
+  },
+  {
+    question: "What safety gap must be maintained for BFL and cargo holds?",
+    options: [
+      "1 inch",
+      "2 inches",
+      "6 inches",
+      "12 inches"
+    ],
+    correct: 1,
+    explanation: "A minimum safety gap of 2 inches should be maintained for BFL installation and near cargo holds."
+  },
+  {
+    question: "Is equipment movement permitted under aircraft wings?",
+    options: [
+      "Yes, under supervision",
+      "Only during boarding",
+      "Restricted and not allowed",
+      "Only for fueling trucks"
+    ],
+    correct: 2,
+    explanation: "Ground equipment movement is restricted under aircraft wings to avoid collision risks."
+  },
+  {
+    question: "What does the term 'fuselage' refer to in an aircraft?",
+    options: [
+      "The tail assembly",
+      "The engine housing",
+      "The central body of the aircraft",
+      "The cargo hold only"
+    ],
+    correct: 2,
+    explanation: "The fuselage is the main central body of the aircraft, housing cockpit, cabin, and cargo."
+  },
+  {
+    question: "Can safety cones be placed directly under aircraft wingtips?",
+    options: [
+      "Yes, for safety",
+      "No, they must not be under wingtips",
+      "Only during night operations",
+      "Only with ATC permission"
+    ],
+    correct: 1,
+    explanation: "Safety cones must not be placed under wingtips as this can interfere with clearance and aircraft safety."
+  }
+];
 
 let currentQuestion = 0;
     let score = 0;
