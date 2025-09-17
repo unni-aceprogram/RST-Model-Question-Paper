@@ -1,200 +1,199 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap">
-  <meta charset="UTF-8" />
-  <title>RST Practice Set 3</title>
-  <style>
-     body {
-    font-family: 'Inter', Arial, sans-serif;
-    background: linear-gradient(120deg, #e3f6f5 0%, #ffe8d6 100%);
-    color: #23395d;
-    min-height: 100vh;
-    margin: 0;
-    padding: 0;
-  }
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap">
+<meta charset="UTF-8" />
+<title>RST Practice Set 11</title>
+<style>
+body {
+font-family: 'Inter', Arial, sans-serif;
+background: linear-gradient(120deg, #e3f6f5 0%, #ffe8d6 100%);
+color: #23395d;
+min-height: 100vh;
+margin: 0;
+padding: 0;
+}
 
-  .container {
-    width: 96%;
-    max-width: 500px;
-    margin: 40px auto 0 auto;
-    background: #fff;
-    border-radius: 20px;
-    box-shadow: 0 8px 32px rgba(34,57,93,0.15);
-    padding: 32px 24px;
-    position: relative;
-  }
+.container {
+width: 96%;
+max-width: 500px;
+margin: 40px auto 0 auto;
+background: #fff;
+border-radius: 20px;
+box-shadow: 0 8px 32px rgba(34,57,93,0.15);
+padding: 32px 24px;
+position: relative;
+}
 
-  h1 {
-    font-size: 2.2em;
-    color: #207bfa;
-    font-weight: 700;
-    letter-spacing: 1px;
-    margin-bottom: 10px;
-  }
+h1 {
+font-size: 2.2em;
+color: #207bfa;
+font-weight: 700;
+letter-spacing: 1px;
+margin-bottom: 10px;
+}
 
-  #progress-container {
-    width: 100%;
-    background: #e9ecef;
-    height: 12px;
-    border-radius: 6px;
-    overflow: hidden;
-    margin-bottom: 10px;
-  }
+#progress-container {
+width: 100%;
+background: #e9ecef;
+height: 12px;
+border-radius: 6px;
+overflow: hidden;
+margin-bottom: 10px;
+}
 
-  #progress-bar {
-    height: 100%;
-    width: 0%;
-    background: linear-gradient(90deg, #207bfa 0%, #43cea2 100%);
-    transition: width 0.4s ease;
-  }
+#progress-bar {
+height: 100%;
+width: 0%;
+background: linear-gradient(90deg, #207bfa 0%, #43cea2 100%);
+transition: width 0.4s ease;
+}
 
-  #question-counter {
-    font-size: 1.1em;
-    font-weight: 600;
-    color: #525252;
-    margin: 10px 0 18px 0;
-    text-align: center;
-  }
+#question-counter {
+font-size: 1.1em;
+font-weight: 600;
+color: #525252;
+margin: 10px 0 18px 0;
+text-align: center;
+}
 
-  .card {
-    background: #f9f9fb;
-    padding: 28px 24px;
-    border-radius: 16px;
-    box-shadow: 0 2px 14px rgba(34,57,93,0.07);
-    text-align: left;
-  }
+.card {
+background: #f9f9fb;
+padding: 28px 24px;
+border-radius: 16px;
+box-shadow: 0 2px 14px rgba(34,57,93,0.07);
+text-align: left;
+}
 
-  .options label {
-    display: block;
-    background: #f5fafd;
-    font-size: 1em;
-    margin: 10px 0;
-    cursor: pointer;
-    padding: 11px 16px;
-    border-radius: 8px;
-    border: 2px solid #e3f6f5;
-    transition: background 0.3s, border-color 0.3s;
-  }
+.options label {
+display: block;
+background: #f5fafd;
+font-size: 1em;
+margin: 10px 0;
+cursor: pointer;
+padding: 11px 16px;
+border-radius: 8px;
+border: 2px solid #e3f6f5;
+transition: background 0.3s, border-color 0.3s;
+}
 
-  .options input {
-    margin-right: 11px;
-  }
+.options input {
+margin-right: 11px;
+}
 
-  .btn {
-    display: inline-block;
-    margin: 18px 10px 0 0;
-    padding: 12px 30px;
-    font-size: 1.15em;
-    font-weight: 600;
-    cursor: pointer;
-    border: none;
-    border-radius: 8px;
-    background: linear-gradient(90deg, #207bfa 0%, #43cea2 100%);
-    color: #fff;
-    box-shadow: 0 3px 10px rgba(34,57,93,0.08);
-    transition: background 0.25s;
-  }
+.btn {
+display: inline-block;
+margin: 18px 10px 0 0;
+padding: 12px 30px;
+font-size: 1.15em;
+font-weight: 600;
+cursor: pointer;
+border: none;
+border-radius: 8px;
+background: linear-gradient(90deg, #207bfa 0%, #43cea2 100%);
+color: #fff;
+box-shadow: 0 3px 10px rgba(34,57,93,0.08);
+transition: background 0.25s;
+}
 
-  .btn:hover { background: linear-gradient(90deg, #43cea2 0%, #207bfa 100%); }
+.btn:hover { background: linear-gradient(90deg, #43cea2 0%, #207bfa 100%); }
 
-  .correct {
-    background: #e6ffed !important;
-    border-color: #43cea2 !important;
-    opacity: 0.6;
-    pointer-events: none;
-  }
+.correct {
+background: #e6ffed !important;
+border-color: #43cea2 !important;
+opacity: 0.6;
+pointer-events: none;
+}
 
-  .wrong {
-    background: #ffebef !important;
-    border-color: #fa205c !important;
-    opacity: 0.6;
-    pointer-events: none;
-  }
+.wrong {
+background: #ffebef !important;
+border-color: #fa205c !important;
+opacity: 0.6;
+pointer-events: none;
+}
 
-  .disabled-option {
-    opacity: 0.6;
-    pointer-events: none;
-  }
+.disabled-option {
+opacity: 0.6;
+pointer-events: none;
+}
 
-  .timer {
-    font-weight: bold;
-    margin-bottom: 15px;
-    font-size: 1.08em;
-    color: #207bfa;
-  }
+.timer {
+font-weight: bold;
+margin-bottom: 15px;
+font-size: 1.08em;
+color: #207bfa;
+}
 
-  .timer.red { color: #fa205c; }
-  .timer.green { color: #43cea2; }
+.timer.red { color: #fa205c; }
+.timer.green { color: #43cea2; }
 
-  .explanation {
-    margin-top: 18px;
-    padding: 12px 16px;
-    background: #f6f3e9;
-    border-left: 5px solid #43cea2;
-    border-radius: 0 8px 8px 0;
-    font-size: 0.99em;
-    color: #525252;
-  }
+.explanation {
+margin-top: 18px;
+padding: 12px 16px;
+background: #f6f3e9;
+border-left: 5px solid #43cea2;
+border-radius: 0 8px 8px 0;
+font-size: 0.99em;
+color: #525252;
+}
 
-  #alert {
-    display: none;
-    font-size: 1.07em;
-    color: #fa205c;
-    letter-spacing: 0.5px;
-    margin: 6px 0;
-    font-weight: 700;
-    text-align: center;
-  }
+#alert {
+display: none;
+font-size: 1.07em;
+color: #fa205c;
+letter-spacing: 0.5px;
+margin: 6px 0;
+font-weight: 700;
+text-align: center;
+}
 
-  #sound-toggle {
-    margin: 18px 0;
-    cursor: pointer;
-    font-size: 1em;
-    color: #43cea2;
-    font-weight: 600;
-  }
+#sound-toggle {
+margin: 18px 0;
+cursor: pointer;
+font-size: 1em;
+color: #43cea2;
+font-weight: 600;
+}
 
-  #score-container {
-    margin-top: 22px;
-    text-align: center;
-  }
+#score-container {
+margin-top: 22px;
+text-align: center;
+}
 
-  .highlight-latest-result {
-    font-size: 1.33em;
-    font-weight: 800;
-    letter-spacing: 1px;
-    margin-bottom: 18px;
-    color: #207bfa;
-  }
+.highlight-latest-result {
+font-size: 1.33em;
+font-weight: 800;
+letter-spacing: 1px;
+margin-bottom: 18px;
+color: #207bfa;
+}
 
-  #time-up-message {
-    font-size: 1.1em;
-    color: #fa205c;
-    font-weight: bold;
-    margin-top: 10px;
-  }
-
-  </style>
+#time-up-message {
+font-size: 1.1em;
+color: #fa205c;
+font-weight: bold;
+margin-top: 10px;
+}
+</style>
 </head>
 <body>
-  <div class="container">
-    <h1>RST Practice Set 3</h1>
-    <div id="sound-toggle" onclick="toggleSound()">
-      <span id="sound-icon">🔊</span> <span id="sound-text">Sound ON</span>
-    </div>
-    <div id="progress-container"><div id="progress-bar"></div></div>
-    <div id="question-counter">Questions : 25</div>
-    <div id="alert">⏰ Hurry! Time is almost up!</div>
-    <div id="quiz-container"></div>
-    <div id="score-container"></div>
-    <button id="start-button" class="btn">Start Quiz</button>
-  </div>
-  <audio id="correct-sound" src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg"></audio>
-  <audio id="wrong-sound" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"></audio>
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script>
+<div class="container">
+<h1>RST Practice Set</h1>
+<div id="sound-toggle" onclick="toggleSound()">
+<span id="sound-icon">🔊</span> <span id="sound-text">Sound ON</span>
+</div>
+<div id="progress-container"><div id="progress-bar"></div></div>
+<div id="question-counter">Question 0 of 0</div>
+<div id="alert">⏰ Hurry! Time is almost up!</div>
+<div id="quiz-container"></div>
+<div id="score-container"></div>
+<button id="start-button" class="btn">Start Quiz</button>
+</div>
+ <audio id="correct-sound" src="https://dm0qx8t0i9gc9.cloudfront.net/watermarks/audio/B4CWlP_CIkc1kju2x/audioblocks-feedback-correct-07_HiQUhCpDv_WM.mp3" preload="auto"></audio>
+<audio id="wrong-sound" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"></audio>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
  const quizData = [
   {
     question: "What is the color of the centerline marking on a bay?",
@@ -473,267 +472,264 @@
   }
 ];
 let currentQuestion = 0;
-    let score = 0;
-    let timer;
-    let timeLeft = 60;
-    let soundOn = true;
-    const userAnswers = [];
-    const allResults = [];
+let score = 0;
+let timer;
+let timeLeft = 60;
+let soundOn = true;
+let soundEnabled = true;
+const userAnswers = [];
+const allResults = [];
 
-    const quizContainer = document.getElementById("quiz-container");
-    const scoreContainer = document.getElementById("score-container");
-    const progressBar = document.getElementById("progress-bar");
-    const questionCounter = document.getElementById("question-counter");
-    const alertBox = document.getElementById("alert");
-    const startButton = document.getElementById("start-button");
-    const correctSound = document.getElementById("correct-sound");
-    const wrongSound = document.getElementById("wrong-sound");
+const quizContainer = document.getElementById("quiz-container");
+const scoreContainer = document.getElementById("score-container");
+const progressBar = document.getElementById("progress-bar");
+const questionCounter = document.getElementById("question-counter");
+const alertBox = document.getElementById("alert");
+const startButton = document.getElementById("start-button");
+const correctSound = document.getElementById("correct-sound");
+const wrongSound = document.getElementById("wrong-sound");
 
-   function startQuiz() {
-    currentQuestion = 0;
-    score = 0;
-    userAnswers.length = 0;
-    quizStartTime = new Date(); // Track quiz start time
-    startButton.style.display = "none";
-    scoreContainer.innerHTML = "";
-    showQuestion();
-  }
+function startQuiz() {
+currentQuestion = 0;
+score = 0;
+userAnswers.length = 0;
+quizStartTime = new Date(); 
+startButton.style.display = "none";
+scoreContainer.innerHTML = "";
+showQuestion();
+}
 
-    function showQuestion() {
-      clearInterval(timer);
-      timeLeft = 60;
-      updateTimer();
-      alertBox.style.display = "none";
-      const questionData = quizData[currentQuestion];
-      quizContainer.innerHTML = `
-        <div class="card">
-          <div class="timer" id="timer">Time left: ${timeLeft}s</div>
-          <h2>${questionData.question}</h2>
-          <div class="options">
-            ${questionData.options.map((opt, i) =>
-              `<label class=""><input type="radio" name="answer" value="${i}"> ${opt}</label>`
-            ).join("")}
-          </div>
-          <div id="warning-message"></div>
-          <button class="btn" onclick="submitAnswer()">Submit</button>
-        </div>
-      `;
-      questionCounter.textContent = `Question ${currentQuestion + 1} of ${quizData.length}`;
-      progressBar.style.width = `${((currentQuestion) / quizData.length) * 100}%`;
+function showQuestion() {
+clearInterval(timer);
+timeLeft = 60;
+updateTimer();
+alertBox.style.display = "none";
+const questionData = quizData[currentQuestion];
+quizContainer.innerHTML = `
+<div class="card">
+<div class="timer" id="timer">Time left: ${timeLeft}s</div>
+<h2>${questionData.question}</h2>
+<div class="options">
+${questionData.options.map((opt, i) =>
+`<label class=""><input type="radio" name="answer" value="${i}"> ${opt}</label>`
+).join("")}
+</div>
+<div id="warning-message"></div>
+<button class="btn" onclick="submitAnswer()">Submit</button>
+</div>
+`;
+questionCounter.textContent = `Question ${currentQuestion + 1} of ${quizData.length}`;
+progressBar.style.width = `${((currentQuestion) / quizData.length) * 100}%`;
 
-      timer = setInterval(() => {
-        timeLeft--;
-        updateTimer();
-        if (timeLeft <= 5) alertBox.style.display = "block";
-        if (timeLeft === 0) submitAnswer(true);
-      }, 1000);
-    }
+timer = setInterval(() => {
+timeLeft--;
+updateTimer();
+if (timeLeft <= 5) alertBox.style.display = "block";
+if (timeLeft === 0) submitAnswer(true);
+}, 1000);
+}
 
-    function updateTimer() {
-      const timerEl = document.getElementById("timer");
-      if (!timerEl) return;
-      timerEl.textContent = `Time left: ${timeLeft}s`;
-      timerEl.className = "timer " + (timeLeft <= 5 ? "red" : "green");
-    }
+function updateTimer() {
+const timerEl = document.getElementById("timer");
+if (!timerEl) return;
+timerEl.textContent = `Time left: ${timeLeft}s`;
+timerEl.className = "timer " + (timeLeft <= 5 ? "red" : "green");
+}
 
-    function submitAnswer(auto = false) {
-      const selected = document.querySelector('input[name="answer"]:checked');
-      const questionData = quizData[currentQuestion];
+function submitAnswer(auto = false) {
+const selected = document.querySelector('input[name="answer"]:checked');
+const questionData = quizData[currentQuestion];
 
-      if (!selected && !auto) {
-        const warning = document.getElementById("warning-message");
-        if (warning) warning.textContent = "⚠️ Please select an option before submitting.";
-        return;
-      }
+if (!selected && !auto) {
+const warning = document.getElementById("warning-message");
+if (warning) warning.textContent = "⚠️ Please select an option before submitting.";
+return;
+}
 
-      // Clear the timer only after validation
-      clearInterval(timer);
-      alertBox.style.display = "none";
+clearInterval(timer);
+alertBox.style.display = "none";
 
-      const warning = document.getElementById("warning-message");
-      if (warning) warning.textContent = "";
+const warning = document.getElementById("warning-message");
+if (warning) warning.textContent = "";
 
-      let isCorrect = false;
+let isCorrect = false;
 
-      if (selected) {
-        const answer = parseInt(selected.value);
-        userAnswers[currentQuestion] = answer;
-        if (answer === questionData.correct) {
-          score++;
-          isCorrect = true;
-        }
-      } else {
-        userAnswers[currentQuestion] = null;
-      }
+if (selected) {
+const answer = parseInt(selected.value);
+userAnswers[currentQuestion] = answer;
+if (answer === questionData.correct) {
+score++;
+isCorrect = true;
+}
+} else {
+userAnswers[currentQuestion] = null;
+}
 
-      const optionsLabels = document.querySelectorAll(".options label");
-      optionsLabels.forEach((label, i) => {
-        label.classList.add("disabled");
-        const input = label.querySelector('input');
-        if (input) input.disabled = true;
+const optionsLabels = document.querySelectorAll(".options label");
+optionsLabels.forEach((label, i) => {
+label.classList.add("disabled");
+const input = label.querySelector('input');
+if (input) input.disabled = true;
 
-        if (i === questionData.correct) label.classList.add("correct");
-        else if (selected && i === parseInt(selected.value)) label.classList.add("wrong");
-      });
+if (i === questionData.correct) label.classList.add("correct");
+else if (selected && i === parseInt(selected.value)) label.classList.add("wrong");
+});
 
-      const submitBtn = quizContainer.querySelector("button.btn");
-      if (submitBtn) submitBtn.disabled = true;
+const submitBtn = quizContainer.querySelector("button.btn");
+if (submitBtn) submitBtn.disabled = true;
 
-      quizContainer.innerHTML += `
-        <div class="explanation"><strong>Explanation:</strong> ${questionData.explanation}</div>
-        <button class="btn" onclick="nextQuestion()">Next</button>
-      `;
-
-      setTimeout(() => {
-        if (isCorrect) {
-          if (soundOn) correctSound.play();
-          confetti();
-        } else {
-          if (soundOn) wrongSound.play();
-        }
-      }, 150);
-
-      progressBar.style.width = `${((currentQuestion + 1) / quizData.length) * 100}%`;
-
-      allResults[currentQuestion] = {
-        question: questionData.question,
-        selected: selected ? parseInt(selected.value) : null,
-        correct: questionData.correct,
-        options: questionData.options,
-        explanation: questionData.explanation,
-      };
-    }
-
-    function nextQuestion() {
-      currentQuestion++;
-      if (currentQuestion >= quizData.length) {
-        showScore();
-      } else {
-        showQuestion();
-      }
-    }
-
-  function showScore() {
-    const endTime = new Date();
-    const timeTaken = Math.floor((endTime - quizStartTime) / 1000); // in seconds
-    const percentage = Math.round((score / quizData.length) * 100);
-    const passed = percentage >= 90;
-
-    quizContainer.innerHTML = "";
-    questionCounter.textContent = `Quiz Completed!`;
-    progressBar.style.width = "100%";
-
-    let resultMessage = `
-      <div class="highlight-latest-result">
-        You scored ${score} out of ${quizData.length} (${percentage}%)
-        <br><span style="color:${passed ? '#43cea2' : '#fa205c'}; font-weight:bold;">
-          ${passed ? "✅ Passed!" : "❌ Not Passed"}
-        </span>
-      </div>
-    `;
-
-    let buttonsHTML = `
-  <div class="button-group">
-    <button class="btn" onclick="startQuiz()">Restart Quiz</button>
-    <button class="btn" onclick="toggleReview()">Review Answers</button>
-    <button class="btn" onclick="downloadResultsPDF(${score}, ${quizData.length}, ${timeTaken})">Share Results</button>
-    <button class="btn" onclick="goHome()">Homepage</button>
-  </div>
-  <div id="review-section"></div> <!-- placeholder for dynamic review answers -->
+quizContainer.innerHTML += `
+<div class="explanation"><strong>Explanation:</strong> ${questionData.explanation}</div>
+<button class="btn" onclick="nextQuestion()">Next</button>
 `;
 
+setTimeout(() => {
+showResult(isCorrect);
+}, 150);
 
-    scoreContainer.innerHTML = resultMessage + buttonsHTML;
-  }
-function toggleReview() {
-  const reviewSection = document.getElementById("review-section");
-  if (reviewSection.innerHTML.trim() !== "") {
-    // Already displayed, hide it
-    reviewSection.innerHTML = "";
-  } else {
-    // Not displayed, show it
-    let resultsHTML = `<h3 style="text-align:center;">Review Your Answers:</h3>`;
-    allResults.forEach((result, i) => {
-      const userAnswerIndex = result.selected;
-      const correctIndex = result.correct;
-      resultsHTML += `
-        <div class="card" style="margin-bottom:15px; text-align:left;">
-          <strong>Q${i + 1}: ${result.question}</strong><br>
-          Your answer: ${userAnswerIndex === null ? "No answer" : result.options[userAnswerIndex]} ${userAnswerIndex === correctIndex ? "✅" : "❌"}<br>
-          Correct answer: ${result.options[correctIndex]}<br>
-          <div class="explanation">${result.explanation}</div>
-        </div>
-      `;
-    });
-    reviewSection.innerHTML = resultsHTML;
-  }
+progressBar.style.width = `${((currentQuestion + 1) / quizData.length) * 100}%`;
+
+allResults[currentQuestion] = {
+question: questionData.question.trim(),
+selected: selected ? parseInt(selected.value) : null,
+correct: questionData.correct,
+options: questionData.options.map(o => o.trim()),
+explanation: questionData.explanation.trim(),
+};
 }
 
+function showResult(correct) {
+const sound = correct ? correctSound : wrongSound;
+sound.currentTime = 0;
+if (soundEnabled) sound.play();
+
+if (correct) {
+confetti();
+setTimeout(() => {
+sound.pause();
+sound.currentTime = 0;
+}, 2400);
+}
+}
+
+function nextQuestion() {
+currentQuestion++;
+if (currentQuestion >= quizData.length) {
+showScore();
+} else {
+showQuestion();
+}
+}
+
+function showScore() {
+const endTime = new Date();
+const timeTaken = Math.floor((endTime - quizStartTime) / 1000); 
+const percentage = Math.round((score / quizData.length) * 100);
+const passed = percentage >= 90;
+
+quizContainer.innerHTML = "";
+questionCounter.textContent = `Quiz Completed!`;
+progressBar.style.width = "100%";
+
+let resultMessage = `
+<div class="highlight-latest-result">
+You scored ${score} out of ${quizData.length} (${percentage}%)
+<br><span style="color:${passed ? '#43cea2' : '#fa205c'}; font-weight:bold;">
+${passed ? "✅ Passed!" : "❌ Not Passed"}
+</span>
+</div>
+`;
+
+let buttonsHTML = `
+<div class="button-group">
+<button class="btn" onclick="startQuiz()">Restart Quiz</button>
+<button class="btn" onclick="toggleReview()">Review Answers</button>
+<button class="btn" onclick="downloadResultsPDF(${score}, ${quizData.length}, ${timeTaken})">Share Results</button>
+<button class="btn" onclick="goHome()">Homepage</button>
+</div>
+<div id="review-section"></div>
+`;
+
+scoreContainer.innerHTML = resultMessage + buttonsHTML;
+}
+
+function toggleReview() {
+const reviewSection = document.getElementById("review-section");
+if (reviewSection.innerHTML.trim() !== "") {
+reviewSection.innerHTML = "";
+} else {
+let resultsHTML = `<h3 style="text-align:center;">Review Your Answers:</h3>`;
+allResults.forEach((result, i) => {
+const userAnswerIndex = result.selected;
+const correctIndex = result.correct;
+resultsHTML += `
+<div class="card" style="margin-bottom:15px; text-align:left;">
+<strong>Q${i + 1}: ${result.question}</strong><br>
+Your answer: ${userAnswerIndex === null ? "No answer" : result.options[userAnswerIndex]} ${userAnswerIndex === correctIndex ? "✅" : "❌"}<br>
+Correct answer: ${result.options[correctIndex]}<br>
+<div class="explanation">${result.explanation}</div>
+</div>
+`;
+});
+reviewSection.innerHTML = resultsHTML;
+}
+}
 
 function downloadResultsPDF(score, total, timeTaken) {
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
-  const now = new Date();
-  const formattedDate = now.toLocaleString();
-  const percentage = Math.round((score / total) * 100) + "%";
+const { jsPDF } = window.jspdf;
+const doc = new jsPDF();
+const now = new Date();
+const formattedDate = now.toLocaleString();
+const percentage = Math.round((score / total) * 100) + "%";
 
-  doc.setFont("helvetica", "bold");
-  doc.setFontSize(16);
-  doc.text("RST Practice Set Results", 20, 20);
+doc.setFont("helvetica", "bold");
+doc.setFontSize(16);
+doc.text("RST Practice Set Results", 20, 20);
 
-  // Headers for the table
-  const headers = ["Date", "Score", "Time Taken"];
-  const data = [
-    [
-      formattedDate,
-      `${score} / ${total} (${percentage})`,
-      `${timeTaken} seconds`
-    ]
-  ];
+const headers = ["Date", "Score", "Time Taken"];
+const data = [[ formattedDate, `${score} / ${total} (${percentage})`, `${timeTaken} seconds` ]];
 
-  // Table settings
-  const startX = 20;
-  const startY = 30;
-  const colWidths = [60, 60, 60];
-  const rowHeight = 10;
+const startX = 20;
+const startY = 30;
+const colWidths = [60, 60, 60];
+const rowHeight = 10;
 
-  // Draw headers
-  headers.forEach((header, i) => {
-    doc.setFillColor(240, 240, 240);
-    doc.rect(startX + colWidths.slice(0, i).reduce((a, b) => a + b, 0), startY, colWidths[i], rowHeight, 'FD');
-    doc.setTextColor(0);
-    doc.setFontSize(12);
-    doc.text(header, startX + colWidths.slice(0, i).reduce((a, b) => a + b, 0) + 2, startY + 7);
-  });
+headers.forEach((header, i) => {
+doc.setFillColor(240, 240, 240);
+doc.rect(startX + colWidths.slice(0, i).reduce((a, b) => a + b, 0), startY, colWidths[i], rowHeight, 'FD');
+doc.setTextColor(0);
+doc.setFontSize(12);
+doc.text(header.trim(), startX + colWidths.slice(0, i).reduce((a, b) => a + b, 0) + 2, startY + 7);
+});
 
-  // Draw data row
-  data[0].forEach((text, i) => {
-    const x = startX + colWidths.slice(0, i).reduce((a, b) => a + b, 0);
-    const y = startY + rowHeight;
-    doc.rect(x, y, colWidths[i], rowHeight); // Draw cell
-    doc.text(text, x + 2, y + 7);
-  });
+data[0].forEach((text, i) => {
+const x = startX + colWidths.slice(0, i).reduce((a, b) => a + b, 0);
+const y = startY + rowHeight;
+doc.rect(x, y, colWidths[i], rowHeight); 
+doc.text(text.trim(), x + 2, y + 7);
+});
 
-  doc.save("quiz_results.pdf");
+doc.save("quiz_results.pdf");
 }
 
-  function goHome() {
-    window.location.href = "index.html"; // change path if needed
-  }
-    function toggleSound() {
-      soundOn = !soundOn;
-      const icon = document.getElementById("sound-icon");
-      const text = document.getElementById("sound-text");
-      if (soundOn) {
-        icon.textContent = "🔊";
-        text.textContent = "Sound ON";
-      } else {
-        icon.textContent = "🔇";
-        text.textContent = "Sound OFF";
-      }
-    }
+function goHome() {
+window.location.href = "index.html";
+}
+function toggleSound() {
+soundOn = !soundOn;
+soundEnabled = soundOn;
+const icon = document.getElementById("sound-icon");
+const text = document.getElementById("sound-text");
+if (soundOn) {
+icon.textContent = "🔊";
+text.textContent = "Sound ON";
+} else {
+icon.textContent = "🔇";
+text.textContent = "Sound OFF";
+}
+}
 
-    startButton.addEventListener("click", startQuiz);
-  </script>
+startButton.addEventListener("click", startQuiz);
+</script>
 </body>
 </html>
